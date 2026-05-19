@@ -1,0 +1,163 @@
+{
+  "plant_id": "nova_hut_ostrava",
+  "name": "Nová Huť",
+  "name_full": "Nová Huť (SPV NH Ostrava)",
+  "name_historical": ["Liberty Ostrava", "ArcelorMittal Ostrava", "Nová huť Klementa Gottwalda"],
+  "city": "Ostrava",
+  "region": "Moravskoslezský kraj",
+  "country": "CZ",
+  "coordinates": { "lat": 49.8144, "lon": 18.2912, "note": "estimated — Ostrava-Kunčice district" },
+  "founded": 1942,
+  "owner": "SPV NH Ostrava (Martin Pečina consortium)",
+  "owner_origin": "CZ",
+  "status": "restart",
+  "strategic_importance": "high",
+
+  "summary": {
+    "short": "Символ чеської важкої індустрії. Після банкрутства Liberty Steel у 2024 куплена новим чеським консорціумом у жовтні 2025. BF назавжди зупинені, планується будівництво EAF потужністю 1.5 млн т/рік за підтримки ЄС.",
+    "en": "Historic Czech steel plant. After Liberty Steel insolvency in 2024, acquired by new Czech consortium in Oct 2025. BF permanently decommissioned, EAF (1.5 Mt/y) planned with EU Modernisation Fund support."
+  },
+
+  "ownership_history": [
+    { "period": "1942–2019", "owner": "State / ArcelorMittal Ostrava" },
+    { "period": "2019–2025", "owner": "Liberty Steel (GFG Alliance, Sanjeev Gupta)" },
+    { "period": "2025–", "owner": "SPV NH Ostrava (Martin Pečina)", "price_czk": 3010000000 }
+  ],
+
+  "production_route": {
+    "type": "Former BF+BOF → Transitioning to EAF",
+    "current_mode": "tolling",
+    "flow_planned": ["EAF (planned)", "Continuous Casting (planned)", "Rolling Mills"],
+    "aggregates": [
+      {
+        "name": "Доменні печі",
+        "name_en": "Blast Furnaces",
+        "category": "ironmaking",
+        "status": "decommissioned",
+        "capacity": "~3.6 Mt/y (former)",
+        "notes": "Назавжди зупинені у жовтні 2023. Коксохімія також закрита."
+      },
+      {
+        "name": "BOF конвертери",
+        "name_en": "BOF Converters",
+        "category": "steelmaking",
+        "status": "decommissioned",
+        "notes": "To be verified — ймовірно зупинені разом з BF"
+      },
+      {
+        "name": "Електродугова піч (ПЛАНУЄТЬСЯ)",
+        "name_en": "Electric Arc Furnace — PLANNED",
+        "category": "steelmaking",
+        "status": "planned",
+        "capacity_kt": 1500,
+        "investment_czk": 17000000000,
+        "funding": "EU Modernisation Fund (Мінекології ЧР)",
+        "notes": "Ключовий стратегічний проект. Орієнтовні строки: 2027–2029"
+      },
+      {
+        "name": "Трубопрокатний завод",
+        "name_en": "Tube Rolling Mill",
+        "category": "downstream",
+        "status": "active",
+        "notes": "Частково активний у tolling-режимі"
+      },
+      {
+        "name": "Листопрокатний стан",
+        "name_en": "Plate / Strip Rolling Mill",
+        "category": "rolling",
+        "status": "active",
+        "notes": "Частково активний"
+      }
+    ]
+  },
+
+  "products": [
+    {
+      "name": "Seamless & welded pipes",
+      "category": "tubes",
+      "status": "active",
+      "notes": "Поточне виробництво у tolling-режимі"
+    },
+    {
+      "name": "Coils (рулони)",
+      "category": "flat",
+      "status": "active",
+      "notes": "Tolling"
+    },
+    {
+      "name": "Long products",
+      "category": "long",
+      "status": "active",
+      "notes": "Tolling"
+    }
+  ],
+
+  "performance_2025": {
+    "crude_steel_kt": 0,
+    "crude_steel_kt_note": "Власне виробництво сирої сталі відсутнє (BF зупинені)",
+    "tolling_volume_kt": "To be verified",
+    "utilization_pct": "To be verified",
+    "trend_vs_2024": "positive",
+    "trend_note": "Частковий рестарт після банкрутства — позитивна динаміка",
+    "investment_2025_czk": 150000000,
+    "source_type": "partially_verified"
+  },
+
+  "market_context_2025": {
+    "key_position": "Потенційно другий найбільший виробник сталі в ЧР після завершення EAF",
+    "notes": "Перехід завершений: BF-ера закінчена, EAF-майбутнє"
+  },
+
+  "news_2025": [
+    {
+      "date": "2023-10",
+      "type": "shutdown",
+      "trend": "negative",
+      "title": "Зупинено останні доменні печі",
+      "summary": "Liberty Steel зупиняє решту BF в Ostrava"
+    },
+    {
+      "date": "2024-06",
+      "type": "crisis",
+      "trend": "negative",
+      "title": "Примусова неплатоспроможність Liberty Ostrava",
+      "summary": "Завод введено в процедуру insolvency"
+    },
+    {
+      "date": "2025-10-01",
+      "type": "ownership",
+      "trend": "positive",
+      "title": "Продаж новому власнику та перейменування на Nová Huť",
+      "summary": "SPV NH Ostrava купила завод за 3.01 млрд CZK, повернула історичну назву"
+    },
+    {
+      "date": "2025",
+      "type": "investment",
+      "trend": "positive",
+      "title": "Інвестиції 150 млн CZK у модернізацію",
+      "summary": "Відновлення обладнання, енергоефективність, повернення тепла на прокатних лініях"
+    },
+    {
+      "date": "2025-2026",
+      "type": "investment",
+      "trend": "positive",
+      "title": "Проект EAF — 17 млрд CZK",
+      "summary": "Планується EAF на 1.5 млн т/рік. Фінансування з EU Modernisation Fund."
+    }
+  ],
+
+  "sources": [
+    { "title": "GMK — передача новому власнику", "url": "https://gmk.center/en/news/liberty-ostrava-is-being-transferred-to-a-new-owner-under-the-name-nova-hut/" },
+    { "title": "EUROMETAL — консорціум купує Liberty", "url": "https://eurometal.net/consortium-to-acquire-liberty-steels-ostrava-steelworks-in-czech-republic/" },
+    { "title": "EUROMETAL — деталі EAF плану", "url": "https://eurometal.net/nova-hut-details-investment-plans-eaf-preparation/" },
+    { "title": "SteelOrbis — EAF 2026", "url": "https://www.steelorbis.com/steel-news/latest-news/czech-based-nova-hu-plans-major-investments-and-eaf-preparation-in-2026-1430249.htm" },
+    { "title": "Global Energy Monitor", "url": "https://www.gem.wiki/Nov%C3%A1_Hut_Ostrava_steel_plant" }
+  ],
+
+  "meta": {
+    "data_quality": "good",
+    "last_updated": "2026-05-18",
+    "verified_fields": ["ownership_history", "BF_status", "EAF_plan", "investment_amounts", "current_status"],
+    "needs_verification": ["exact_coordinates", "BOF_status", "tolling_volumes", "exact_EAF_timeline"]
+  }
+}

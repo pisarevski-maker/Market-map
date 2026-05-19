@@ -1,0 +1,96 @@
+{
+  "plant_id": "valcovny_trub_chomutov",
+  "name": "Válcovny trub Chomutov",
+  "name_full": "Válcovny trub Chomutov, a.s.",
+  "group": "Z-Group hutní skupina",
+  "city": "Chomutov",
+  "region": "Ústecký kraj",
+  "country": "CZ",
+  "address": "Tovární 629, 430 01 Chomutov",
+  "coordinates": { "lat": 50.4604, "lon": 13.4178, "note": "estimated — Chomutov industrial zone" },
+  "founded": 1890,
+  "founder_historical": "Mannesmann brothers",
+  "owner": "Z-Group Steel Holding, a.s.",
+  "status": "active",
+  "strategic_importance": "medium",
+
+  "summary": {
+    "short": "Завод з понад 130-річною традицією, заснований братами Mannesmann у 1890 — місце, де була створена перша у світі безшовна труба. Виробляє великогабаритні безшовні труби OD 273–660 mm для енергетики та нафтогазової галузі.",
+    "en": "Over 130-year tradition. Founded by Mannesmann brothers in 1890 — birthplace of the world's first seamless pipe. Produces large-diameter seamless tubes OD 273–660 mm for energy and oil & gas sectors."
+  },
+
+  "production_route": {
+    "type": "Seamless tube rolling (downstream re-roller)",
+    "flow": ["Billet / bloom input (external)", "Piercing", "Rolling / Extrusion", "Finishing"],
+    "aggregates": [
+      {
+        "name": "Стан безшовних труб великого діаметру",
+        "name_en": "Large-diameter Seamless Tube Rolling Mill",
+        "category": "tube_rolling",
+        "status": "active",
+        "od_range_mm": "273–660",
+        "wall_thickness_mm": "9.5–72",
+        "notes": "Спеціалізація на великогабаритних котельних і енергетичних трубах"
+      }
+    ]
+  },
+
+  "products": [
+    {
+      "name": "Seamless boiler tubes (безшовні котельні труби)",
+      "category": "tubes",
+      "status": "main",
+      "od_mm_range": "273–660",
+      "wall_thickness_mm": "9.5–72",
+      "steel_grades": "Від простої вуглецевої до P92 (high-alloy)",
+      "applications": ["Котли", "Енергетика", "Нафтогаз"],
+      "notes": "Піонер галузі — перша у світі безшовна труба (1890)"
+    }
+  ],
+
+  "performance_2025": {
+    "production_kt": "To be verified",
+    "capacity_kt": "To be verified",
+    "utilization_pct": "To be verified",
+    "revenue_trend_2023": "-8.37% vs 2022",
+    "trend_vs_2024": "To be verified",
+    "employees_2024": "100–199",
+    "source_type": "partially_verified"
+  },
+
+  "market_context_2025": {
+    "key_position": "Нішевий виробник великогабаритних безшовних труб",
+    "notes": "Участь у Tube 2024 (Düsseldorf) — міжнародна присутність"
+  },
+
+  "news_2025": [
+    {
+      "date": "2024",
+      "type": "commercial",
+      "trend": "neutral",
+      "title": "Участь у Tube 2024 (Düsseldorf)",
+      "summary": "Міжнародна виставка трубної промисловості"
+    },
+    {
+      "date": "2023",
+      "type": "financial",
+      "trend": "negative",
+      "title": "Виручка -8.37% у 2023",
+      "summary": "Зниження доходів на фоні складного ринку"
+    }
+  ],
+
+  "sources": [
+    { "title": "Офіційний сайт VTC", "url": "https://vtchomutov.com/" },
+    { "title": "Tube 2024 профіль", "url": "https://www.tube-tradefair.com/vis/v1/en/exhprofiles/YH6AyzR3RoqMxWck2MHs7Q" },
+    { "title": "Z-Group", "url": "https://www.steel-holding.cz/" },
+    { "title": "Kompass", "url": "https://gb.kompass.com/c/valcovny-trub-chomutov-a-s/cz002010/" }
+  ],
+
+  "meta": {
+    "data_quality": "medium",
+    "last_updated": "2026-05-18",
+    "verified_fields": ["location", "product_specs", "historical_significance", "group_ownership", "employee_count"],
+    "needs_verification": ["exact_coordinates", "capacity_kt", "production_volumes_2024_2025", "full_financials"]
+  }
+}

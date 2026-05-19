@@ -1,0 +1,65 @@
+{
+  "plant_id": "zelezarny_velky_senov",
+  "name": "Železárny Velký Šenov",
+  "name_full": "Železárny Velký Šenov s.r.o.",
+  "city": "Velký Šenov",
+  "region": "Ústecký kraj",
+  "country": "CZ",
+  "coordinates": { "lat": 50.9833, "lon": 14.3667, "note": "estimated — north Bohemia, near Děčín" },
+  "founded": "To be verified",
+  "owner": "To be verified (private)",
+  "status": "active",
+  "strategic_importance": "low",
+
+  "summary": {
+    "short": "Регіональний виробник холоднокатаних стальних смуг у рулонах з та без електрогальванічного покриття. Нетипове географічне розташування — північ Чехії vs основний Ostrava/Třinec кластер. У 2026 планується нова лінія різання.",
+    "en": "Regional producer of cold rolled steel strips in coils, with and without electrogalvanic coating. Located in north Bohemia. New slitting line planned for 2026."
+  },
+
+  "production_route": {
+    "type": "Cold rolling / Slitting / Galvanizing (downstream)",
+    "flow": ["Hot rolled coil input (external)", "Cold Rolling", "Electrogalvanizing (optional)", "Slitting"],
+    "aggregates": [
+      { "name": "Стан холодної прокатки", "name_en": "Cold Rolling Mill", "category": "cold_rolling", "status": "active" },
+      { "name": "Лінія електрогальванізації", "name_en": "Electrogalvanizing Line", "category": "coating", "status": "active" },
+      { "name": "Лінія різання (НОВА — 2026)", "name_en": "Slitting Line (NEW — 2026)", "category": "slitting", "status": "planned", "notes": "Запуск у пізнє літо 2026. Розширить асортимент і параметри продукції." }
+    ]
+  },
+
+  "products": [
+    { "name": "Cold rolled steel strips — galvanized", "category": "flat", "status": "main", "notes": "Електрогальванічне покриття" },
+    { "name": "Cold rolled steel strips — non-coated", "category": "flat", "status": "active" },
+    { "name": "Packaging steel strips", "category": "packaging", "status": "active", "notes": "Стрічка для промислового пакування" },
+    { "name": "Slit coils (різані рулони)", "category": "flat", "status": "active" }
+  ],
+
+  "performance_2025": {
+    "production_kt": "To be verified",
+    "capacity_kt": "To be verified",
+    "utilization_pct": "To be verified",
+    "trend_vs_2024": "neutral",
+    "source_type": "estimated"
+  },
+
+  "news_2025": [
+    {
+      "date": "2026",
+      "type": "investment",
+      "trend": "positive",
+      "title": "Нова лінія різання (slitting line)",
+      "summary": "Запуск у пізнє літо 2026. Розширить асортимент і дозволить відповідати суворішим параметрам різаної смуги."
+    }
+  ],
+
+  "sources": [
+    { "title": "Офіційний сайт", "url": "https://zelezarnyvs.cz/en/" },
+    { "title": "Реєстр підприємств", "url": "https://rejstrik-firem.kurzy.cz/61535842/zelezarny-velky-senov-sro/" }
+  ],
+
+  "meta": {
+    "data_quality": "low",
+    "last_updated": "2026-05-18",
+    "verified_fields": ["location", "product_type", "status", "new_slitting_line_2026"],
+    "needs_verification": ["exact_coordinates", "founded_year", "owner", "capacity", "production_volumes", "revenue"]
+  }
+}

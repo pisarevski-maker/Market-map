@@ -1,0 +1,100 @@
+{
+  "plant_id": "zelezarny_veseli",
+  "name": "Železárny Veselí (Z-Group)",
+  "name_full": "Z-Group Steel Holding, a.s.",
+  "name_historical": "Železárny Veselí a.s.",
+  "group": "Z-Group hutní skupina",
+  "city": "Veselí nad Moravou",
+  "region": "Jihomoravský kraj",
+  "country": "CZ",
+  "address": "Kollárova 1229, 698 01 Veselí nad Moravou",
+  "coordinates": { "lat": 48.9536, "lon": 17.3765, "note": "verified — city center near railway station" },
+  "site_area_ha": 45,
+  "founded": 1962,
+  "owner": "Z-Group Steel Holding, a.s.",
+  "status": "active",
+  "strategic_importance": "medium",
+
+  "summary": {
+    "short": "Один із заводів Z-Group hutní skupina. Розташований у центрі Veselí nad Moravou на майданчику ~45 га. Виробляє безшовні, зварні та тягнуті труби, прутки, злитки і тонкостінні профілі.",
+    "en": "One of Z-Group plants. Located in city center of Veselí nad Moravou on ~45 ha site. Produces seamless, welded and drawn tubes, bars, ingots and thin-walled profiles."
+  },
+
+  "production_route": {
+    "type": "Steel works + tube rolling + drawing (multi-process)",
+    "flow": ["Steelmaking (To be verified)", "Rolling / Drawing / Extrusion", "Finishing"],
+    "aggregates": [
+      {
+        "name": "Сталеплавильний цех",
+        "name_en": "Steel works",
+        "category": "steelmaking",
+        "status": "To be verified",
+        "notes": "Наявність EAF потребує верифікації"
+      },
+      {
+        "name": "Прокатний стан / трубопрокатний цех",
+        "name_en": "Rolling mill / tube mill",
+        "category": "rolling",
+        "status": "active"
+      },
+      {
+        "name": "Цех волочіння",
+        "name_en": "Drawing plant",
+        "category": "drawing",
+        "status": "active"
+      },
+      {
+        "name": "Зварювальний цех",
+        "name_en": "Welding plant",
+        "category": "welded_tubes",
+        "status": "active"
+      },
+      {
+        "name": "Гальванічний цех",
+        "name_en": "Galvanizing plant",
+        "category": "coating",
+        "status": "active"
+      }
+    ]
+  },
+
+  "products": [
+    { "name": "Seamless tubes (безшовні труби)", "category": "tubes", "status": "active" },
+    { "name": "Welded tubes (зварні труби)", "category": "tubes", "status": "active" },
+    { "name": "Drawn tubes (тягнуті труби)", "category": "tubes", "status": "active" },
+    { "name": "Hot extruded tubes (гарячепресовані труби)", "category": "tubes", "status": "active" },
+    { "name": "Bars and ingots (прутки та злитки)", "category": "long", "status": "active" },
+    { "name": "Thin-walled steel profiles (тонкостінні профілі)", "category": "special", "status": "active", "notes": "Спеціальний асортимент" }
+  ],
+
+  "performance_2025": {
+    "production_kt": "To be verified",
+    "capacity_kt": "To be verified",
+    "utilization_pct": "To be verified",
+    "trend_vs_2024": "To be verified",
+    "source_type": "estimated"
+  },
+
+  "news_2025": [
+    {
+      "date": "To be verified",
+      "type": "general",
+      "trend": "neutral",
+      "title": "Частина Z-Group hutní skupina",
+      "summary": "Завод входить до складу Z-Group разом з VTC Chomutov, Železárny Hrádek та Železárny Chomutov"
+    }
+  ],
+
+  "sources": [
+    { "title": "Z-Group офіційний сайт", "url": "https://www.steel-holding.cz/" },
+    { "title": "Brownfield реєстр JMK", "url": "https://www.brownfieldy-jmk.cz/detail/?id=5304" },
+    { "title": "Firmy.cz", "url": "https://en.firmy.cz/company/166369-zelezarny-veseli-veseli-nad-moravou.html" }
+  ],
+
+  "meta": {
+    "data_quality": "low",
+    "last_updated": "2026-05-18",
+    "verified_fields": ["coordinates", "address", "site_area", "products_general", "group_ownership"],
+    "needs_verification": ["steelmaking_status", "EAF_presence", "capacity", "production_volumes", "financials", "employee_count"]
+  }
+}

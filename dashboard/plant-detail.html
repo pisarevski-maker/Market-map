@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plant Profile · Czech Steel Intelligence</title>
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:           #FFFFFF;
+      --bg-light:     #FAFAFA;
+      --text:         #1E1E1E;
+      --text-muted:   #6B6B6B;
+      --accent-dark:  #7A1F2B;
+      --accent-mid:   #9B1C31;
+      --accent-light: #C94555;
+      --positive:     #2E7D32;
+      --warning:      #E6862C;
+      --negative:     #B3261E;
+      --border:       #E8E8E8;
+      --card-shadow:  0 1px 4px rgba(0,0,0,0.06);
+      --font:         'Inter', 'Helvetica Neue', Arial, sans-serif;
+    }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── Top Nav ──────────────────────────────────────────── */
+    .topnav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 52px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--accent-mid); }
+    .back-arrow { font-size: 16px; }
+    .topnav-title {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+    .topnav-badge {
+      font-size: 11px;
+      background: #FFF4F0;
+      color: var(--accent-dark);
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid #F5D0C8;
+    }
+
+    /* ── Page Layout ──────────────────────────────────────── */
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px 64px;
+    }
+
+    /* ── Plant Header ─────────────────────────────────────── */
+    .plant-header {
+      padding: 36px 0 28px;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+    }
+    .plant-status-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 12px;
+    }
+    .status-badge.active   { background: #EDF7ED; color: var(--positive); }
+    .status-badge.restart  { background: #FFF8F0; color: var(--warning); }
+    .status-badge.closed   { background: #FFF0EF; color: var(--negative); }
+    .importance-badge {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: #F3F3F3;
+      padding: 3px 10px;
+      border-radius: 12px;
+    }
+    .plant-name {
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .plant-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+    .plant-meta strong { color: var(--text); }
+    .plant-summary {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 680px;
+      line-height: 1.7;
+    }
+    .header-kpi {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 200px;
+    }
+    .header-kpi-card {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      text-align: right;
+    }
+    .header-kpi-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .header-kpi-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .header-kpi-sub { font-size: 11px; color: var(--text-muted); }
+
+    /* ── Section ──────────────────────────────────────────── */
+    .section {
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .section:last-child { border-bottom: none; }
+    .section-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-mid);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+
+    /* ── Production Flow ──────────────────────────────────── */
+    .flow-svg {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .flow-node rect {
+      rx: 6;
+    }
+    .flow-arrow { stroke: var(--border); stroke-width: 1.5; fill: none; }
+    .flow-arrowhead { fill: #CCCCCC; }
+
+    /* ── Aggregates Table ─────────────────────────────────── */
+    .aggr-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .aggr-table th {
+      text-align: left;
+      padding: 8px 12px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      font-weight: 600;
+      background: var(--bg-light);
+      border-bottom: 1px solid var(--border);
+    }
+    .aggr-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .aggr-table tr:last-child td { border-bottom: none; }
+    .aggr-table tr:hover td { background: #FAFAFA; }
+    .aggr-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 8px;
+    }
+    .aggr-status.active      { background: #EDF7ED; color: var(--positive); }
+    .aggr-status.planned     { background: #EEF4FF; color: #1565C0; }
+    .aggr-status.decommissioned { background: #FFF0EF; color: var(--negative); }
+    .aggr-status.unknown     { background: #F3F3F3; color: var(--text-muted); }
+    .aggr-note { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ── Products Grid ────────────────────────────────────── */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .product-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      background: var(--bg);
+      transition: box-shadow 0.15s;
+    }
+    .product-card:hover { box-shadow: var(--card-shadow); }
+    .product-card.main {
+      border-color: var(--accent-light);
+      background: #FFF9FA;
+    }
+    .product-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .product-category {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .product-stat {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+    .product-stat strong { color: var(--text); }
+    .product-main-tag {
+      display: inline-block;
+      font-size: 10px;
+      background: var(--accent-light);
+      color: white;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+    /* Market share micro-block inside product card */
+    .product-mshare {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 8px;
+      padding-top: 7px;
+      border-top: 1px solid var(--border);
+    }
+    .mshare-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      white-space: nowrap;
+      line-height: 1.3;
+    }
+    .mshare-bar-track {
+      flex: 1;
+      height: 4px;
+      background: #EDEDEB;
+      border-radius: 2px;
+      overflow: hidden;
+      min-width: 20px;
+    }
+    .mshare-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+    .mshare-value {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      white-space: nowrap;
+    }
+    .mshare-year {
+      font-size: 9px;
+      color: var(--text-muted);
+    }
+
+    /* ── Performance KPIs ─────────────────────────────────── */
+    .perf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .perf-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      background: var(--bg-light);
+    }
+    .perf-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .perf-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .perf-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .trend-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 6px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .trend-badge.positive { background: #EDF7ED; color: var(--positive); }
+    .trend-badge.neutral  { background: #F3F3F3; color: var(--text-muted); }
+    .trend-badge.negative { background: #FFF0EF; color: var(--negative); }
+    .trend-badge.warning  { background: #FFF8F0; color: var(--warning); }
+
+    /* ── News Timeline ────────────────────────────────────── */
+    .news-list { display: flex; flex-direction: column; gap: 1px; }
+    .news-item {
+      display: grid;
+      grid-template-columns: 90px 12px 1fr;
+      gap: 0 16px;
+      align-items: start;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      padding-top: 3px;
+    }
+    .news-dot-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 5px;
+    }
+    .news-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .news-line {
+      width: 1px;
+      flex: 1;
+      background: var(--border);
+      margin-top: 4px;
+      min-height: 20px;
+    }
+    .news-content {}
+    .news-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .news-summary {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .news-type-tag {
+      display: inline-block;
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    /* ── Sources ──────────────────────────────────────────── */
+    .sources-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .source-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+    .source-item a {
+      color: var(--accent-mid);
+      text-decoration: none;
+    }
+    .source-item a:hover { text-decoration: underline; }
+    .source-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    /* ── Verify tag ───────────────────────────────────────── */
+    .verify {
+      color: var(--warning);
+      font-style: italic;
+      font-size: 11px;
+    }
+
+    /* ── Loading / Error ──────────────────────────────────── */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 300px;
+      color: var(--text-muted);
+      font-size: 14px;
+      gap: 12px;
+    }
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent-mid);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<!-- ── TOP NAV ─────────────────────────────────────────────── -->
+<nav class="topnav">
+  <a class="back-link" href="index.html">
+    <span class="back-arrow">←</span> Back to Map
+  </a>
+  <span class="topnav-title">Czech Steel Intelligence · Plant Profile</span>
+  <span class="topnav-badge">2025</span>
+</nav>
+
+<!-- ── PAGE ────────────────────────────────────────────────── -->
+<div class="page" id="page-content">
+  <div class="loading" id="loading-state">
+    <div class="spinner"></div>
+    <span>Loading plant data…</span>
+  </div>
+</div>
+
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   INLINE DATA (fallback — works without HTTP server)
+   ════════════════════════════════════════════════════════════ */
+const PLANTS_DATA = {
+  trinecke_zelezarny: {
+    plant_id: "trinecke_zelezarny",
+    name: "Třinecké železárny",
+    name_full: "Třinecké železárny, a.s.",
+    city: "Třinec", region: "Moravskoslezský kraj",
+    founded: 1839, owner: "Moravia Steel a.s.", owner_origin: "CZ",
+    status: "active", strategic_importance: "critical",
+    summary: { short: "Největší producent oceli v ČR. Plný metalurgický cyklus od koksu po hotové výrobky. Jediný výrobce kolejnic v ČR. Plánuje přechod na EAF do roku 2030." },
+    production_route: {
+      type: "Integrated steelworks (BF+BOF+EAF)",
+      flow: ["Coke plant","Sinter plant","Blast Furnace",["BOF Converter","EAF"],"Continuous Casting",["Wire Rod Mill","Bar & Profile Mill","Rail Mill","Pipe Plant"]]
+    },
+    aggregates: [
+      { name: "Coke plant", category: "raw_material", status: "active", capacity: "To be verified", notes: "Own coke production" },
+      { name: "Sinter plant", category: "raw_material", status: "active", capacity: "To be verified", notes: "" },
+      { name: "Blast Furnaces", category: "ironmaking", status: "active", capacity: "To be verified", notes: "To be phased out by 2030 (decarbonisation)" },
+      { name: "BOF Converters", category: "steelmaking", status: "active", capacity: "To be verified", notes: "Main steelmaking unit" },
+      { name: "Electric Arc Furnace (EAF)", category: "steelmaking", status: "active", capacity: "To be verified", notes: "Smaller volume. Expansion planned to 2030." },
+      { name: "Continuous Casting (CCM)", category: "casting", status: "active", capacity: "To be verified", notes: "" },
+      { name: "Wire Rod Mill", category: "rolling", status: "active", capacity: "To be verified", notes: "Main rolling mill" },
+      { name: "Bar & Profile Mill", category: "rolling", status: "active", capacity: "To be verified", notes: "" },
+      { name: "Rail Mill", category: "rolling", status: "active", capacity: "To be verified", notes: "Only rail producer in CZ" },
+      { name: "Seamless Pipe Plant", category: "downstream", status: "active", capacity: "To be verified", notes: "" }
+    ],
+    products: [
+      { name: "Wire rod", category: "long", status: "main", sales_kt_2023: 937.5, notes: "Main product" },
+      { name: "Rebar", category: "long", status: "active", notes: "" },
+      { name: "Steel bars", category: "long", status: "active", notes: "" },
+      { name: "Profiles / Sections", category: "long", status: "active", notes: "" },
+      { name: "Rails", category: "long", status: "active", notes: "Only producer in CZ" },
+      { name: "Seamless pipes", category: "tubes", status: "active", notes: "" },
+      { name: "Semi-finished (billets/blooms)", category: "semis", status: "active", notes: "" }
+    ],
+    performance_2025: {
+      crude_steel_kt_2024: 2420, crude_steel_kt_2023: 2415, capacity_kt: 2500,
+      trend_vs_2024: "neutral",
+      source_type: "partially_verified"
+    },
+    market_context_2025: {
+      market_share_cz_pct: "~100% crude steel 2024",
+      notes: "De facto sole active crude steel producer in CZ in 2024"
+    },
+    news_2025: [
+      { date: "2024-04", type: "milestone", trend: "positive", title: "185th anniversary of steel production in Třinec", summary: "185 years of uninterrupted production." },
+      { date: "2025", type: "investment", trend: "positive", title: "EAF Transition Plan by 2030", summary: "Announced decarbonisation strategy: full transition to scrap-based EAF production by 2030." }
+    ],
+    sources: [
+      { title: "Official website", url: "https://www.trz.cz/en/" },
+      { title: "GMK — 2024 production", url: "https://gmk.center/en/news/trinecke-zelezarny-produced-2-42-million-tons-of-steel-in-2024/" },
+      { title: "Global Energy Monitor", url: "https://www.gem.wiki/TZMS_T%C5%99ineck%C3%A9_%C5%BEelez%C3%A1rny_Trinec_steel_plant" }
+    ]
+  },
+  nova_hut_ostrava: {
+    plant_id: "nova_hut_ostrava",
+    name: "Nová Huť",
+    name_full: "Nová Huť (SPV NH Ostrava)",
+    city: "Ostrava", region: "Moravskoslezský kraj",
+    founded: 1942, owner: "SPV NH Ostrava (Martin Pečina)", owner_origin: "CZ",
+    status: "restart", strategic_importance: "high",
+    summary: { short: "Historic Czech steel plant. After Liberty Steel insolvency in 2024, acquired by new Czech consortium in Oct 2025. BF permanently decommissioned. EAF (1.5 Mt/y) planned with EU Modernisation Fund support (17B CZK)." },
+    production_route: {
+      type: "Former BF+BOF → Transitioning to EAF",
+      flow: ["EAF (planned 1.5 Mt)","Continuous Casting (planned)","Rolling Mills (partial active)"]
+    },
+    aggregates: [
+      { name: "Blast Furnaces", category: "ironmaking", status: "decommissioned", capacity: "~3.6 Mt/y (former)", notes: "Permanently shut down Oct 2023. Coke plant also closed." },
+      { name: "BOF Converters", category: "steelmaking", status: "decommissioned", notes: "To be verified — likely shut with BF" },
+      { name: "Electric Arc Furnace — PLANNED", category: "steelmaking", status: "planned", capacity: "1,500 kt/y", notes: "Key strategic project. 17B CZK investment. EU Modernisation Fund. ETA ~2027–2029." },
+      { name: "Tube Rolling Mill", category: "downstream", status: "active", notes: "Partially active in tolling mode" },
+      { name: "Plate / Strip Rolling Mill", category: "rolling", status: "active", notes: "Partially active" }
+    ],
+    products: [
+      { name: "Seamless & welded pipes", category: "tubes", status: "active", notes: "Current tolling mode" },
+      { name: "Coils", category: "flat", status: "active", notes: "Tolling" },
+      { name: "Long products", category: "long", status: "active", notes: "Tolling" }
+    ],
+    performance_2025: {
+      crude_steel_kt_2024: 0, trend_vs_2024: "warning",
+      investment_2025_czk: 150000000,
+      source_type: "partially_verified"
+    },
+    market_context_2025: { notes: "Potential 2nd largest producer after EAF completion. BF era ended, EAF future." },
+    news_2025: [
+      { date: "2023-10", type: "shutdown", trend: "negative", title: "Remaining blast furnaces shut down", summary: "Liberty Steel idles last BF in Ostrava." },
+      { date: "2024-06", type: "crisis", trend: "negative", title: "Liberty Ostrava forced into insolvency", summary: "Plant enters insolvency proceedings." },
+      { date: "2025-10-01", type: "ownership", trend: "positive", title: "Sold to new owner · Renamed Nová Huť", summary: "SPV NH Ostrava acquires plant for CZK 3.01B, restores historic name." },
+      { date: "2025", type: "investment", trend: "positive", title: "CZK 150M modernisation investments", summary: "Equipment renewal, energy efficiency, waste heat recovery." },
+      { date: "2025–2026", type: "investment", trend: "positive", title: "EAF project — CZK 17 billion", summary: "1.5 Mt/y EAF planned. EU Modernisation Fund financing." }
+    ],
+    sources: [
+      { title: "GMK — ownership transfer", url: "https://gmk.center/en/news/liberty-ostrava-is-being-transferred-to-a-new-owner-under-the-name-nova-hut/" },
+      { title: "EUROMETAL — EAF plans", url: "https://eurometal.net/nova-hut-details-investment-plans-eaf-preparation/" },
+      { title: "SteelOrbis 2026", url: "https://www.steelorbis.com/steel-news/latest-news/czech-based-nova-hu-plans-major-investments-and-eaf-preparation-in-2026-1430249.htm" }
+    ]
+  },
+  vitkovice_steel: {
+    plant_id: "vitkovice_steel",
+    name: "Vítkovice Steel",
+    name_full: "Vítkovice Steel, a.s.",
+    city: "Ostrava", region: "Moravskoslezský kraj",
+    founded: 1828, owner: "Jindal Steel International (India)", owner_origin: "IN",
+    status: "active", strategic_importance: "high",
+    summary: { short: "Only heavy steel plate producer in Czech Republic. One of two sheet piling producers in EU. Re-roller since 2015 — no own steelmaking. Acquired by India's Jindal Group in Jan 2025 (€150M investment planned)." },
+    production_route: {
+      type: "Re-roller (no own steelmaking since 2015)",
+      flow: ["Slab input (external suppliers)","Heavy Plate Hot Rolling Mill","Heavy Plate / Sheet Piling"]
+    },
+    aggregates: [
+      { name: "Steelmaking (former)", category: "steelmaking", status: "decommissioned", notes: "Own crude steel production stopped in 2015" },
+      { name: "Heavy Plate Hot Rolling Mill", category: "rolling", status: "active", capacity: "800,000 t/y", notes: "Only heavy plate mill in CZ. Also produces sheet piling." }
+    ],
+    products: [
+      { name: "Heavy steel plate", category: "flat", status: "main", capacity_kt: 800, notes: "ONLY producer in CZ. Applications: shipbuilding, bridges, oil & gas, construction." },
+      { name: "Sheet piling", category: "special", status: "active", notes: "One of TWO producers in EU" }
+    ],
+    performance_2025: {
+      capacity_kt: 800, trend_vs_2024: "positive",
+      trend_note: "New owner, €150M investment — growth expected",
+      source_type: "estimated"
+    },
+    market_context_2025: { notes: "Monopoly in heavy plate segment in CZ. Indian capital opens access to Jindal supply chain." },
+    news_2025: [
+      { date: "2024-10", type: "ownership", trend: "positive", title: "Jindal Group announces acquisition", summary: "First major Jindal Group investment in Europe." },
+      { date: "2024-12-20", type: "regulatory", trend: "positive", title: "Antitrust approval (ÚOHS)", summary: "Czech competition authority approves acquisition." },
+      { date: "2025-01-01", type: "ownership", trend: "positive", title: "Official ownership transfer", summary: "Jindal Steel International becomes new owner." },
+      { date: "2025", type: "investment", trend: "positive", title: "€150M investment plan", summary: "Capacity expansion, high value-added products." },
+      { date: "2025", type: "partnership", trend: "positive", title: "MoU with Vulcan Green Steel (Oman)", summary: "1 Mt/y low-emission slab supply agreement with Jindal sister company." }
+    ],
+    sources: [
+      { title: "GMK — Jindal becomes owner", url: "https://gmk.center/en/news/jindal-steel-international-officially-becomes-the-new-owner-of-vitkovice-steel/" },
+      { title: "EUROMETAL — acquisition", url: "https://eurometal.net/jindal-steel-acquires-czech-republics-vitkovice-steel/" },
+      { title: "Official website", url: "https://www.vitkovicesteel.com/en/" }
+    ]
+  },
+  zdb_dratovna: {
+    plant_id: "zdb_dratovna",
+    name: "ŽDB Drátovna",
+    name_full: "ŽDB DRÁTOVNA a.s.",
+    city: "Bohumín", region: "Moravskoslezský kraj",
+    founded: 1885, owner: "Třinecké železárny – Moravia Steel", owner_origin: "CZ",
+    status: "active", strategic_importance: "medium",
+    summary: { short: "Largest manufacturer of patented wire and steel ropes in the Czech Republic. TŽ subsidiary since 2012. 6 production plants covering wire, ropes, springs and tooling. Product range 0.1–74 mm." },
+    production_route: {
+      type: "Wire drawing (downstream)",
+      flow: ["Wire rod input (from TŽ)","Patenting / Heat treatment","Wire Drawing","Rope / Spring / Product mfg."]
+    },
+    aggregates: [
+      { name: "Patented Wire Drawing Plant (TPD)", category: "wire_drawing", status: "active", notes: "Own steam production since Feb 2024" },
+      { name: "Non-patented Wire Drawing Plant (TND)", category: "wire_drawing", status: "active", notes: "Own steam production since Feb 2024" },
+      { name: "Steel Wire Rope Plant", category: "rope", status: "active", notes: "" },
+      { name: "Spring Plant", category: "springs", status: "active", notes: "" },
+      { name: "Wire Products Plant", category: "products", status: "active", notes: "" },
+      { name: "Drawing Die Plant", category: "tooling", status: "active", notes: "" }
+    ],
+    products: [
+      { name: "Patented wire", category: "wire", status: "main", notes: "Main product. Range: 0.1–74 mm" },
+      { name: "Non-patented wire", category: "wire", status: "active", notes: "" },
+      { name: "Annealed wire", category: "wire", status: "active", notes: "New deliveries to Nedschroef 2024" },
+      { name: "Steel wire ropes (0.1–74 mm)", category: "rope", status: "active", notes: "" },
+      { name: "Steel cords", category: "cord", status: "active", notes: "" },
+      { name: "Springs", category: "springs", status: "active", notes: "" },
+      { name: "Profile wire", category: "wire", status: "active", notes: "" },
+      { name: "Drawing dies", category: "tooling", status: "active", notes: "" }
+    ],
+    performance_2025: { trend_vs_2024: "positive", trend_note: "New contracts 2024 (Nedschroef, Anglogold Ashanti)", source_type: "estimated" },
+    market_context_2025: { notes: "Largest wire and rope producer in CZ. Closes TŽ group's downstream chain." },
+    news_2025: [
+      { date: "2024-02", type: "investment", trend: "positive", title: "Own steam production for TPD & TND plants", summary: "Energy independence — reduces costs and external dependency." },
+      { date: "2024", type: "commercial", trend: "positive", title: "Serial wire deliveries to Nedschroef (Alten)", summary: "New contract with automotive supplier." },
+      { date: "2024-01", type: "commercial", trend: "positive", title: "First rope delivery to Anglogold Ashanti", summary: "11t triangular strand ropes for mining industry." }
+    ],
+    sources: [
+      { title: "Official website", url: "https://www.dratovna.cz/en/" },
+      { title: "EWRIS", url: "https://ewris.eu/members/zdb-dratovna-as" }
+    ]
+  },
+  zelezarny_velky_senov: {
+    plant_id: "zelezarny_velky_senov",
+    name: "Železárny Velký Šenov",
+    name_full: "Železárny Velký Šenov s.r.o.",
+    city: "Velký Šenov", region: "Ústecký kraj",
+    founded: "To be verified", owner: "Private (CZ)", owner_origin: "CZ",
+    status: "active", strategic_importance: "low",
+    summary: { short: "Regional producer of cold rolled steel strips in coils. Located in northern Bohemia — atypical geography vs. the main Ostrava/Třinec cluster. New slitting line planned for 2026." },
+    production_route: { type: "Cold rolling / Slitting / Galvanizing", flow: ["Hot rolled coil input","Cold Rolling","Electrogalvanizing (optional)","Slitting"] },
+    aggregates: [
+      { name: "Cold Rolling Mill", category: "cold_rolling", status: "active", notes: "" },
+      { name: "Electrogalvanizing Line", category: "coating", status: "active", notes: "" },
+      { name: "Slitting Line (NEW — 2026)", category: "slitting", status: "planned", notes: "Launch late summer 2026. Wider product range." }
+    ],
+    products: [
+      { name: "Cold rolled strips — galvanized", category: "flat", status: "main", notes: "Electrogalvanic coating" },
+      { name: "Cold rolled strips — non-coated", category: "flat", status: "active", notes: "" },
+      { name: "Packaging steel strips", category: "packaging", status: "active", notes: "" },
+      { name: "Slit coils", category: "flat", status: "active", notes: "" }
+    ],
+    performance_2025: { trend_vs_2024: "neutral", source_type: "estimated" },
+    market_context_2025: { notes: "Niche regional player in cold strip segment. North Bohemia location." },
+    news_2025: [
+      { date: "2026", type: "investment", trend: "positive", title: "New slitting line", summary: "Launch late summer 2026. Wider assortment, stricter slit strip parameters." }
+    ],
+    sources: [{ title: "Official website", url: "https://zelezarnyvs.cz/en/" }]
+  },
+  valcovny_trub_chomutov: {
+    plant_id: "valcovny_trub_chomutov",
+    name: "Válcovny trub Chomutov",
+    name_full: "Válcovny trub Chomutov, a.s.",
+    city: "Chomutov", region: "Ústecký kraj",
+    founded: 1890, owner: "Z-Group Steel Holding", owner_origin: "CZ",
+    status: "active", strategic_importance: "medium",
+    summary: { short: "Founded in 1890 by the Mannesmann brothers — birthplace of the world's first seamless pipe. Specialises in large-diameter seamless tubes OD 273–660 mm for energy, boiler and oil & gas applications." },
+    production_route: { type: "Seamless tube rolling", flow: ["Billet / bloom input","Piercing","Rolling / Extrusion","Finishing","Seamless tubes"] },
+    aggregates: [
+      { name: "Large-diameter Seamless Tube Mill", category: "tube_rolling", status: "active", capacity: "OD 273–660 mm, wall 9.5–72 mm", notes: "Pioneer plant — world's first seamless pipe (1890)" }
+    ],
+    products: [
+      { name: "Seamless boiler tubes", category: "tubes", status: "main", notes: "OD 273–660 mm · wall 9.5–72 mm · grades: carbon to P92" }
+    ],
+    performance_2025: { trend_vs_2024: "To be verified", revenue_trend_2023: "-8.37% vs 2022", employees_2024: "100–199", source_type: "partially_verified" },
+    market_context_2025: { notes: "Niche producer of large-dia seamless tubes. International presence (Tube 2024 Düsseldorf)." },
+    news_2025: [
+      { date: "2024", type: "commercial", trend: "neutral", title: "Participation at Tube 2024 (Düsseldorf)", summary: "International tube industry exhibition." },
+      { date: "2023", type: "financial", trend: "negative", title: "Revenue -8.37% in 2023", summary: "Revenue decline in a challenging market." }
+    ],
+    sources: [
+      { title: "Official website", url: "https://vtchomutov.com/" },
+      { title: "Z-Group", url: "https://www.steel-holding.cz/" }
+    ]
+  },
+  zelezarny_veseli: {
+    plant_id: "zelezarny_veseli",
+    name: "Železárny Veselí",
+    name_full: "Z-Group Steel Holding, a.s. (former Železárny Veselí)",
+    city: "Veselí nad Moravou", region: "Jihomoravský kraj",
+    founded: 1962, owner: "Z-Group Steel Holding", owner_origin: "CZ",
+    status: "active", strategic_importance: "medium",
+    summary: { short: "Part of Z-Group hutní skupina. 45-hectare site in Veselí nad Moravou city center. Produces seamless, welded and drawn tubes, bars, ingots and special thin-walled profiles." },
+    production_route: { type: "Steel works + tube rolling + drawing", flow: ["Steelmaking (to be verified)","Rolling / Drawing","Welding / Galvanizing","Finishing"] },
+    aggregates: [
+      { name: "Steel works", category: "steelmaking", status: "unknown", notes: "EAF presence to be verified" },
+      { name: "Rolling mill / tube mill", category: "rolling", status: "active", notes: "" },
+      { name: "Drawing plant", category: "drawing", status: "active", notes: "" },
+      { name: "Welding plant", category: "welded_tubes", status: "active", notes: "" },
+      { name: "Galvanizing plant", category: "coating", status: "active", notes: "" }
+    ],
+    products: [
+      { name: "Seamless tubes", category: "tubes", status: "active", notes: "" },
+      { name: "Welded tubes", category: "tubes", status: "active", notes: "" },
+      { name: "Drawn tubes", category: "tubes", status: "active", notes: "" },
+      { name: "Bars and ingots", category: "long", status: "active", notes: "" },
+      { name: "Thin-walled profiles", category: "special", status: "active", notes: "Special assortment" }
+    ],
+    performance_2025: { trend_vs_2024: "To be verified", source_type: "estimated" },
+    market_context_2025: { notes: "Part of Z-Group alongside VTC Chomutov, Železárny Hrádek and Železárny Chomutov." },
+    news_2025: [{ date: "ongoing", type: "general", trend: "neutral", title: "Part of Z-Group hutní skupina", summary: "Integrated into Z-Group with VTC Chomutov and other plants." }],
+    sources: [
+      { title: "Z-Group", url: "https://www.steel-holding.cz/" },
+      { title: "Firmy.cz", url: "https://en.firmy.cz/company/166369-zelezarny-veseli-veseli-nad-moravou.html" }
+    ]
+  }
+};
+
+/* ════════════════════════════════════════════════════════════
+   HELPERS
+   ════════════════════════════════════════════════════════════ */
+
+function fmt(val, unit = '') {
+  if (val === undefined || val === null || val === 'To be verified' || val === 0)
+    return `<span class="verify">${val === 0 ? '0' : 'To be verified'}</span>`;
+  return `<strong>${val}</strong>${unit ? ' <span style="font-size:11px;color:var(--text-muted)">' + unit + '</span>' : ''}`;
+}
+
+function statusBadge(s) {
+  if (s === 'active')        return '<span class="aggr-status active">● Active</span>';
+  if (s === 'planned')       return '<span class="aggr-status planned">◎ Planned</span>';
+  if (s === 'decommissioned')return '<span class="aggr-status decommissioned">✕ Decommissioned</span>';
+  return                            '<span class="aggr-status unknown">? To verify</span>';
+}
+
+function trendBadge(t) {
+  const map = {
+    positive: ['↑', 'positive'],
+    neutral:  ['→', 'neutral'],
+    negative: ['↓', 'negative'],
+    warning:  ['⚡', 'warning']
+  };
+  const [icon, cls] = map[t] || ['?', 'neutral'];
+  return `<span class="trend-badge ${cls}">${icon} ${t}</span>`;
+}
+
+function newsTypeTag(type, trend) {
+  const colors = {
+    investment: { bg: '#EDF7ED', color: '#2E7D32' },
+    ownership:  { bg: '#EEF4FF', color: '#1565C0' },
+    shutdown:   { bg: '#FFF0EF', color: '#B3261E' },
+    crisis:     { bg: '#FFF0EF', color: '#B3261E' },
+    milestone:  { bg: '#FFF4F0', color: '#7A1F2B' },
+    commercial: { bg: '#FFF8F0', color: '#E6862C' },
+    regulatory: { bg: '#F3F3F3', color: '#6B6B6B' },
+    financial:  { bg: '#F3F3F3', color: '#6B6B6B' },
+    general:    { bg: '#F3F3F3', color: '#6B6B6B' },
+    partnership:{ bg: '#EEF4FF', color: '#1565C0' }
+  };
+  const c = colors[type] || colors.general;
+  return `<span class="news-type-tag" style="background:${c.bg};color:${c.color}">${type}</span>`;
+}
+
+function dotColor(trend) {
+  const map = { positive: '#2E7D32', negative: '#B3261E', warning: '#E6862C', neutral: '#CCCCCC' };
+  return map[trend] || '#CCCCCC';
+}
+
+/* ════════════════════════════════════════════════════════════
+   PRODUCTION FLOW SVG
+   ════════════════════════════════════════════════════════════ */
+
+function buildFlowSVG(flow) {
+  if (!flow || !flow.length) return '';
+
+  /* ── Layout constants ──────────────────────────────────────
+     Each slot is either:
+       • a single step (string)   → one node centred on midY
+       • a parallel group (array) → N nodes stacked, fork+merge arrows
+     Works for any N — BOF+EAF (2) or all rolling mills (4+).
+  ─────────────────────────────────────────────────────────── */
+  const nodeW  = 148;
+  const nodeH  = 36;
+  const gap    = 34;   // horizontal gap between slots
+  const parGap = 10;   // vertical gap between parallel nodes
+  const total  = flow.length;
+
+  // SVG height driven by the largest parallel group
+  const maxPar   = flow.reduce((m, s) => Array.isArray(s) ? Math.max(m, s.length) : m, 1);
+  const totalParH = maxPar * nodeH + (maxPar - 1) * parGap;
+  const svgH     = totalParH + 28;   // 14px padding top+bottom
+  const midY     = svgH / 2;
+
+  const svgW = total * nodeW + (total - 1) * gap;
+
+  let nodes  = '';
+  let arrows = '';
+
+  // Centre-Y of parallel node ri within a group of n nodes
+  function parCY(ri, n) {
+    const groupH   = n * nodeH + (n - 1) * parGap;
+    const groupTop = midY - groupH / 2;
+    return groupTop + ri * (nodeH + parGap) + nodeH / 2;
+  }
+
+  flow.forEach((step, i) => {
+    const isFirst = i === 0;
+    const isLast  = i === total - 1;
+    const slotX   = i * (nodeW + gap);
+
+    if (Array.isArray(step)) {
+      // ── PARALLEL GROUP (N nodes) ───────────────────────────
+      const n = step.length;
+      step.forEach((label, ri) => {
+        const cy = parCY(ri, n);
+        nodes += `
+          <g class="flow-node">
+            <rect x="${slotX}" y="${cy - nodeH/2}" width="${nodeW}" height="${nodeH}" rx="6"
+              fill="#F0F7FF" stroke="#4A90D9" stroke-width="1.5"/>
+            <text x="${slotX + nodeW/2}" y="${cy + 4}" text-anchor="middle"
+              font-family="Inter,sans-serif" font-size="11" fill="#1A3A5C" font-weight="600">${label}</text>
+          </g>`;
+      });
+
+      // Fork: incoming horizontal → vertical splitter → arrow to each node
+      if (i > 0) {
+        const prevRx = (i-1) * (nodeW + gap) + nodeW;
+        const forkX  = slotX - gap / 2;
+        const topCY  = parCY(0,   n);
+        const botCY  = parCY(n-1, n);
+        // incoming arrow to fork
+        arrows += `<line x1="${prevRx}" y1="${midY}" x2="${forkX}" y2="${midY}" class="flow-arrow"/>`;
+        // vertical splitter
+        arrows += `<line x1="${forkX}" y1="${topCY}" x2="${forkX}" y2="${botCY}" stroke="#CCCCCC" stroke-width="1.5"/>`;
+        // branch to each node
+        step.forEach((_, ri) => {
+          const cy = parCY(ri, n);
+          arrows += `
+            <line x1="${forkX}" y1="${cy}" x2="${slotX - 8}" y2="${cy}" class="flow-arrow"/>
+            <polygon points="${slotX-8},${cy-4} ${slotX},${cy} ${slotX-8},${cy+4}" class="flow-arrowhead"/>`;
+        });
+      }
+
+    } else {
+      // ── SINGLE NODE ───────────────────────────────────────
+      const fill  = isFirst ? '#F5E9EA' : isLast ? '#7A1F2B' : '#FAFAFA';
+      const stroke= isFirst ? '#C94555' : isLast ? '#7A1F2B' : '#E8E8E8';
+      const tCol  = isLast  ? '#FFFFFF' : '#1E1E1E';
+
+      nodes += `
+        <g class="flow-node">
+          <rect x="${slotX}" y="${midY - nodeH/2}" width="${nodeW}" height="${nodeH}" rx="6"
+            fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>
+          <text x="${slotX + nodeW/2}" y="${midY + 4}" text-anchor="middle"
+            font-family="Inter,sans-serif" font-size="11" fill="${tCol}" font-weight="500">${step}</text>
+        </g>`;
+
+      if (i > 0) {
+        const prevStep = flow[i - 1];
+        if (Array.isArray(prevStep)) {
+          // Merge: N parallel → single
+          const n      = prevStep.length;
+          const prevRx = (i-1) * (nodeW + gap) + nodeW;
+          const mergeX = slotX - gap / 2;
+          const topCY  = parCY(0,   n);
+          const botCY  = parCY(n-1, n);
+          // horizontal lines from each parallel node to merge
+          prevStep.forEach((_, ri) => {
+            const cy = parCY(ri, n);
+            arrows += `<line x1="${prevRx}" y1="${cy}" x2="${mergeX}" y2="${cy}" class="flow-arrow"/>`;
+          });
+          // vertical merge line
+          arrows += `<line x1="${mergeX}" y1="${topCY}" x2="${mergeX}" y2="${botCY}" stroke="#CCCCCC" stroke-width="1.5"/>`;
+          // arrow from merge to this node
+          arrows += `
+            <line x1="${mergeX}" y1="${midY}" x2="${slotX - 8}" y2="${midY}" class="flow-arrow"/>
+            <polygon points="${slotX-8},${midY-4} ${slotX},${midY} ${slotX-8},${midY+4}" class="flow-arrowhead"/>`;
+        } else {
+          // Linear arrow
+          const ax = (i-1) * (nodeW + gap) + nodeW;
+          arrows += `
+            <line x1="${ax}" y1="${midY}" x2="${slotX - 8}" y2="${midY}" class="flow-arrow"/>
+            <polygon points="${slotX-8},${midY-4} ${slotX},${midY} ${slotX-8},${midY+4}" class="flow-arrowhead"/>`;
+        }
+      }
+    }
+  });
+
+  return `<div class="flow-svg">
+    <svg viewBox="0 0 ${svgW} ${svgH}" style="min-width:${Math.min(svgW,960)}px;height:${svgH}px;overflow:visible">
+      ${arrows}${nodes}
+    </svg>
+  </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════
+   PAGE RENDER
+   ════════════════════════════════════════════════════════════ */
+
+function renderPage(plant) {
+  document.title = `${plant.name} · Czech Steel Intelligence`;
+
+  const p = plant.performance_2025 || {};
+  const mc = plant.market_context_2025 || {};
+
+  // Header KPI cards
+  let headerKPI = '';
+  if (p.crude_steel_kt_2024 !== undefined) {
+    headerKPI += `<div class="header-kpi-card">
+      <div class="header-kpi-label">Crude Steel 2024</div>
+      <div class="header-kpi-value">${p.crude_steel_kt_2024 > 0 ? (p.crude_steel_kt_2024/1000).toFixed(2) + ' Mt' : '—'}</div>
+      <div class="header-kpi-sub">${p.crude_steel_kt_2024 > 0 ? p.crude_steel_kt_2024 + ' kt' : 'BF decommissioned'}</div>
+    </div>`;
+  }
+  if (p.capacity_kt || p.capacity_rolled_kt) {
+    const cap = p.capacity_kt || plant.products?.[0]?.capacity_kt;
+    headerKPI += `<div class="header-kpi-card">
+      <div class="header-kpi-label">Capacity</div>
+      <div class="header-kpi-value">${cap ? cap + ' kt' : '—'}</div>
+      <div class="header-kpi-sub">per year</div>
+    </div>`;
+  }
+
+  /* ── Market share data (% виробн. ЧР по категорії) ─────────
+     Source: Czech Steel Union, WorldSteel, plant press releases.
+     Shows share of Czech production for that product category.
+     Numbers for Liberty 2024 = 0 (plant shut down Dec 2023).       */
+  const MARKET_SHARES = {
+    trinecke_zelezarny: {
+      long:  { years: { 2020:61, 2021:55, 2022:61, 2023:72, 2024:100 } },
+      tubes: { years: { 2020:55, 2021:50, 2022:55, 2023:65, 2024:80  } },
+      semis: { years: { 2020:70, 2021:70, 2022:70, 2023:85, 2024:100 } }
+    },
+    nova_hut_ostrava: {
+      flat:  { years: { 2020:51, 2021:62, 2022:49, 2023:29, 2024:0  } },
+      long:  { years: { 2020:39, 2021:48, 2022:38, 2023:28, 2024:0  } },
+      tubes: { years: { 2020:28, 2021:34, 2022:28, 2023:14, 2024:0  } }
+    }
+  };
+
+  // Returns HTML for market share micro-block, or '' if no data
+  function marketShareBlock(plantId, category) {
+    const plantData = MARKET_SHARES[plantId];
+    if (!plantData) return '';
+    const catData = plantData[category];
+    if (!catData) return '';
+    // Find best year to display: prefer 2024, fallback to most recent
+    const years = [2024, 2023, 2022, 2021, 2020];
+    const displayYear = years.find(y => catData.years[y] !== undefined);
+    if (displayYear === undefined) return '';
+    const pct = catData.years[displayYear];
+    // Pick bar color based on value
+    const barColor = pct === 0   ? '#BBBBBB' :
+                     pct >= 80   ? 'var(--accent-dark)' :
+                     pct >= 50   ? 'var(--accent-mid)'  : 'var(--accent-light)';
+    const label = {
+      long:  '% виробн. ЧР · long',
+      flat:  '% виробн. ЧР · flat',
+      tubes: '% виробн. ЧР · tubes',
+      semis: '% виробн. ЧР · semis'
+    }[category] || '% виробн. ЧР';
+    const zeroNote = pct === 0 ? ' (завод зупинений)' : '';
+    return `
+      <div class="product-mshare">
+        <div class="mshare-label">${label}</div>
+        <div class="mshare-bar-track">
+          <div class="mshare-bar-fill" style="width:${Math.min(pct,100)}%;background:${barColor}"></div>
+        </div>
+        <span class="mshare-value">${pct}%</span>
+        <span class="mshare-year">${displayYear}${zeroNote}</span>
+      </div>`;
+  }
+
+  // Aggregates rows
+  const aggrRows = (plant.aggregates || []).map(a => `
+    <tr>
+      <td><strong>${a.name}</strong>${a.notes ? `<div class="aggr-note">${a.notes}</div>` : ''}</td>
+      <td style="color:var(--text-muted);font-size:12px">${a.category || ''}</td>
+      <td>${statusBadge(a.status)}</td>
+      <td style="font-size:12px">${a.capacity || '<span class="verify">To be verified</span>'}</td>
+    </tr>`).join('');
+
+  // Products cards
+  const productCards = (plant.products || []).map(pr => `
+    <div class="product-card ${pr.status === 'main' ? 'main' : ''}">
+      ${pr.status === 'main' ? '<div class="product-main-tag">Main product</div>' : ''}
+      <div class="product-name">${pr.name}</div>
+      <div class="product-category">${pr.category || ''}</div>
+      ${pr.capacity_kt ? `<div class="product-stat">Capacity: <strong>${pr.capacity_kt} kt/y</strong></div>` : ''}
+      ${pr.sales_kt_2023 ? `<div class="product-stat">Sales 2023: <strong>${pr.sales_kt_2023} kt</strong></div>` : ''}
+      ${pr.notes ? `<div class="product-stat" style="margin-top:4px">${pr.notes}</div>` : ''}
+      ${marketShareBlock(plant.plant_id, pr.category)}
+    </div>`).join('');
+
+  // News timeline
+  const newsItems = (plant.news_2025 || []).map((n, i, arr) => `
+    <div class="news-item">
+      <div class="news-date">${n.date || ''}</div>
+      <div class="news-dot-col">
+        <div class="news-dot" style="background:${dotColor(n.trend)}"></div>
+        ${i < arr.length - 1 ? '<div class="news-line"></div>' : ''}
+      </div>
+      <div class="news-content">
+        ${newsTypeTag(n.type, n.trend)}
+        <div class="news-title">${n.title}</div>
+        <div class="news-summary">${n.summary}</div>
+      </div>
+    </div>`).join('');
+
+  // Sources
+  const sourceItems = (plant.sources || []).map(s =>
+    `<div class="source-item"><span class="source-dot"></span><a href="${s.url}" target="_blank" rel="noopener">${s.title}</a></div>`
+  ).join('');
+
+  const statusCls = plant.status === 'restart' ? 'restart' : plant.status === 'closed' ? 'closed' : 'active';
+  const statusTxt = plant.status === 'restart' ? '⚡ Restart / Transition' :
+                    plant.status === 'closed'  ? '✕ Closed' : '● Active';
+  const impTxt    = { critical:'Critical', high:'High importance', medium:'Medium', low:'Regional' }[plant.strategic_importance] || '';
+
+  const html = `
+    <!-- PLANT HEADER -->
+    <div class="plant-header">
+      <div>
+        <div class="plant-status-row">
+          <span class="status-badge ${statusCls}">${statusTxt}</span>
+          ${impTxt ? `<span class="importance-badge">${impTxt}</span>` : ''}
+          ${plant.owner_origin === 'IN' ? '<span class="importance-badge">🇮🇳 Indian ownership</span>' : ''}
+        </div>
+        <h1 class="plant-name">${plant.name}</h1>
+        <div class="plant-meta">
+          <span>📍 ${plant.city}, ${plant.region}</span>
+          <span>🏭 Founded: <strong>${plant.founded}</strong></span>
+          <span>👤 Owner: <strong>${plant.owner}</strong></span>
+          <span>⚙️ ${plant.production_route?.type || ''}</span>
+        </div>
+        <p class="plant-summary">${plant.summary?.short || ''}</p>
+      </div>
+      ${headerKPI ? `<div class="header-kpi">${headerKPI}</div>` : ''}
+    </div>
+
+    <!-- PRODUCTION ROUTE -->
+    <div class="section">
+      <div class="section-label">Production Route</div>
+      <div class="section-title">Process Flow</div>
+      ${buildFlowSVG(plant.production_route?.flow)}
+    </div>
+
+    <!-- AGGREGATES -->
+    ${plant.aggregates?.length ? `
+    <div class="section">
+      <div class="section-label">Equipment</div>
+      <div class="section-title">Aggregates & Units</div>
+      <table class="aggr-table">
+        <thead>
+          <tr>
+            <th>Unit</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Capacity</th>
+          </tr>
+        </thead>
+        <tbody>${aggrRows}</tbody>
+      </table>
+    </div>` : ''}
+
+    <!-- PRODUCTS -->
+    ${plant.products?.length ? `
+    <div class="section">
+      <div class="section-label">Portfolio</div>
+      <div class="section-title">Products</div>
+      <div class="products-grid">${productCards}</div>
+    </div>` : ''}
+
+    <!-- PERFORMANCE -->
+    <div class="section">
+      <div class="section-label">Performance</div>
+      <div class="section-title">2024–2025 Overview</div>
+      <div class="perf-grid">
+        ${p.crude_steel_kt_2024 !== undefined ? `
+        <div class="perf-card">
+          <div class="perf-label">Crude Steel 2024</div>
+          <div class="perf-value">${p.crude_steel_kt_2024 > 0 ? p.crude_steel_kt_2024 + ' kt' : '—'}</div>
+          ${p.crude_steel_kt_2023 ? `<div class="perf-sub">2023: ${p.crude_steel_kt_2023} kt</div>` : ''}
+          ${trendBadge(p.trend_vs_2024)}
+        </div>` : ''}
+        ${p.capacity_kt ? `
+        <div class="perf-card">
+          <div class="perf-label">Capacity</div>
+          <div class="perf-value">${p.capacity_kt} kt</div>
+          <div class="perf-sub">per year</div>
+        </div>` : ''}
+        ${p.investment_2025_czk ? `
+        <div class="perf-card">
+          <div class="perf-label">Investment 2025</div>
+          <div class="perf-value">${(p.investment_2025_czk/1e6).toFixed(0)}M</div>
+          <div class="perf-sub">CZK</div>
+          ${trendBadge('positive')}
+        </div>` : ''}
+        <div class="perf-card">
+          <div class="perf-label">Data Quality</div>
+          <div class="perf-value" style="font-size:14px;margin-top:4px">${p.source_type?.replace('_',' ') || 'estimated'}</div>
+          <div class="perf-sub">Some fields need verification</div>
+        </div>
+      </div>
+      ${mc.notes ? `<p style="margin-top:16px;font-size:13px;color:var(--text-muted)">${mc.notes}</p>` : ''}
+    </div>
+
+    <!-- NEWS -->
+    ${plant.news_2025?.length ? `
+    <div class="section">
+      <div class="section-label">Activity</div>
+      <div class="section-title">News & Developments 2023–2025</div>
+      <div class="news-list">${newsItems}</div>
+    </div>` : ''}
+
+    <!-- SOURCES -->
+    ${plant.sources?.length ? `
+    <div class="section">
+      <div class="section-label">References</div>
+      <div class="section-title">Sources</div>
+      <div class="sources-list">${sourceItems}</div>
+      <p style="margin-top:12px;font-size:11px;color:var(--text-muted);font-style:italic">
+        Data as of May 2025. Fields marked "To be verified" require additional source confirmation before use in reports.
+      </p>
+    </div>` : ''}
+  `;
+
+  const page = document.getElementById('page-content');
+  page.innerHTML = html;
+}
+
+/* ════════════════════════════════════════════════════════════
+   INIT
+   ════════════════════════════════════════════════════════════ */
+
+function getPlantId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('id') || 'trinecke_zelezarny';
+}
+
+async function init() {
+  const id = getPlantId();
+
+  // Try to load from JSON file first (when served via HTTP)
+  try {
+    const resp = await fetch(`../data/processed/plant_details/${id}.json`);
+    if (resp.ok) {
+      const data = await resp.json();
+      renderPage(data);
+      return;
+    }
+  } catch (e) { /* fallback to inline data */ }
+
+  // Fallback: inline data
+  const plant = PLANTS_DATA[id];
+  if (plant) {
+    renderPage(plant);
+  } else {
+    document.getElementById('page-content').innerHTML = `
+      <div style="text-align:center;padding:80px 40px;color:var(--text-muted)">
+        <div style="font-size:32px;margin-bottom:16px">🏭</div>
+        <div style="font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px">Plant not found</div>
+        <div>ID: <code>${id}</code></div>
+        <a href="index.html" style="display:inline-block;margin-top:24px;color:var(--accent-mid)">← Back to map</a>
+      </div>`;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

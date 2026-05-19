@@ -1,0 +1,224 @@
+{
+  "plant_id": "trinecke_zelezarny",
+  "name": "Třinecké železárny",
+  "name_full": "Třinecké železárny, a.s.",
+  "group": "Třinecké železárny – Moravia Steel Group",
+  "city": "Třinec",
+  "region": "Moravskoslezský kraj",
+  "country": "CZ",
+  "address": "Průmyslová 1000, 739 61 Třinec",
+  "coordinates": { "lat": 49.6891, "lon": 18.6546 },
+  "founded": 1839,
+  "owner": "Moravia Steel a.s.",
+  "owner_origin": "CZ",
+  "status": "active",
+  "strategic_importance": "critical",
+
+  "summary": {
+    "short": "Найбільший виробник сталі в Чехії. Повний металургійний цикл від коксу до готової продукції. Єдиний виробник рейок у ЧР. Планує перехід на EAF до 2030.",
+    "en": "Largest steel producer in the Czech Republic. Full metallurgical cycle from coke to finished products. Only rail producer in CZ. Plans EAF transition by 2030."
+  },
+
+  "production_route": {
+    "type": "Integrated steelworks (BF+BOF) + EAF",
+    "flow": ["Coke plant", "Sinter plant", "Blast Furnace", "BOF Converter", "EAF", "Continuous Casting", "Rolling Mills"],
+    "aggregates": [
+      {
+        "name": "Коксохімічний завод",
+        "name_en": "Coke plant",
+        "category": "raw_material",
+        "status": "active",
+        "capacity": "To be verified",
+        "notes": "Власне виробництво коксу — повна незалежність від постачальників"
+      },
+      {
+        "name": "Агломераційна фабрика",
+        "name_en": "Sinter plant",
+        "category": "raw_material",
+        "status": "active",
+        "capacity": "To be verified",
+        "notes": ""
+      },
+      {
+        "name": "Доменні печі",
+        "name_en": "Blast Furnaces",
+        "category": "ironmaking",
+        "status": "active",
+        "capacity": "To be verified",
+        "quantity": "To be verified",
+        "notes": "Плановий вивід з експлуатації до 2030 в рамках декарбонізації"
+      },
+      {
+        "name": "BOF конвертери",
+        "name_en": "BOF Converters",
+        "category": "steelmaking",
+        "status": "active",
+        "capacity": "To be verified",
+        "quantity": "To be verified",
+        "notes": "Основний сталеплавильний агрегат"
+      },
+      {
+        "name": "Електродугова піч",
+        "name_en": "Electric Arc Furnace (EAF)",
+        "category": "steelmaking",
+        "status": "active",
+        "capacity": "To be verified",
+        "notes": "Менший обсяг ніж BOF. Планується розширення до 2030."
+      },
+      {
+        "name": "Машини безперервного лиття",
+        "name_en": "Continuous Casting Machines (CCM)",
+        "category": "casting",
+        "status": "active",
+        "capacity": "To be verified",
+        "notes": ""
+      },
+      {
+        "name": "Стан дрібносортний / катанковий",
+        "name_en": "Wire Rod Mill",
+        "category": "rolling",
+        "status": "active",
+        "capacity": "To be verified",
+        "notes": "Головний прокатний цех — wire rod є основним продуктом"
+      },
+      {
+        "name": "Сортопрокатний стан",
+        "name_en": "Bar & Profile Mill",
+        "category": "rolling",
+        "status": "active",
+        "capacity": "To be verified",
+        "notes": ""
+      },
+      {
+        "name": "Рейковий стан",
+        "name_en": "Rail Mill",
+        "category": "rolling",
+        "status": "active",
+        "capacity": "To be verified",
+        "notes": "Єдиний виробник рейок у ЧР"
+      },
+      {
+        "name": "Трубний завод",
+        "name_en": "Seamless Pipe Plant",
+        "category": "downstream",
+        "status": "active",
+        "capacity": "To be verified",
+        "notes": ""
+      }
+    ]
+  },
+
+  "products": [
+    {
+      "name": "Wire rod (катанка)",
+      "category": "long",
+      "status": "main",
+      "capacity_kt": "To be verified",
+      "production_kt": "To be verified",
+      "sales_kt_2023": 937.5,
+      "sales_kt_2024": "To be verified",
+      "trend_vs_2024": "To be verified",
+      "notes": "Головний продукт компанії"
+    },
+    {
+      "name": "Rebar (арматура)",
+      "category": "long",
+      "status": "active",
+      "capacity_kt": "To be verified",
+      "production_kt": "To be verified",
+      "sales_kt": "To be verified",
+      "trend_vs_2024": "To be verified",
+      "notes": ""
+    },
+    {
+      "name": "Steel bars (прутки)",
+      "category": "long",
+      "status": "active",
+      "sales_kt_2023": "included in 487 kt bar&profile total",
+      "notes": ""
+    },
+    {
+      "name": "Profiles / Sections (профілі)",
+      "category": "long",
+      "status": "active",
+      "sales_kt_2023": "included in 487 kt bar&profile total",
+      "notes": ""
+    },
+    {
+      "name": "Rails (рейки)",
+      "category": "long",
+      "status": "active",
+      "capacity_kt": "To be verified",
+      "notes": "Єдиний виробник рейок у ЧР"
+    },
+    {
+      "name": "Seamless pipes (безшовні труби)",
+      "category": "tubes",
+      "status": "active",
+      "capacity_kt": "To be verified",
+      "notes": ""
+    },
+    {
+      "name": "Semi-finished (напівфабрикати)",
+      "category": "semis",
+      "status": "active",
+      "notes": "Білети, блюми"
+    }
+  ],
+
+  "performance_2025": {
+    "crude_steel_kt": "To be verified",
+    "crude_steel_kt_2024": 2420,
+    "crude_steel_kt_2023": 2415,
+    "capacity_kt": 2500,
+    "utilization_pct": "To be verified",
+    "trend_vs_2024": "neutral",
+    "revenue": "To be verified",
+    "exports_pct": "To be verified",
+    "source_type": "partially_verified"
+  },
+
+  "market_context_2025": {
+    "market_share_cz_pct": "~100% crude steel in 2024",
+    "key_position": "Dominuje чеський ринок сирої сталі",
+    "notes": "У 2024 фактично єдиний активний виробник сирої сталі в ЧР"
+  },
+
+  "news_2025": [
+    {
+      "date": "2024-04",
+      "type": "milestone",
+      "trend": "positive",
+      "title": "185 років виробництва сталі в Тршинці",
+      "summary": "Ювілей заводу — 185 років безперервного виробництва"
+    },
+    {
+      "date": "2024-06",
+      "type": "financial",
+      "trend": "neutral",
+      "title": "Завершення фінансового року 2023",
+      "summary": "Прес-реліз про результати 2023 року"
+    },
+    {
+      "date": "2025",
+      "type": "investment",
+      "trend": "positive",
+      "title": "План переходу на EAF до 2030",
+      "summary": "Оголошено декарбонізаційну стратегію: повний перехід на скрап-базоване EAF виробництво до 2030 року"
+    }
+  ],
+
+  "sources": [
+    { "title": "Офіційний сайт TŽ", "url": "https://www.trz.cz/en/" },
+    { "title": "GMK Center — виробництво 2024", "url": "https://gmk.center/en/news/trinecke-zelezarny-produced-2-42-million-tons-of-steel-in-2024/" },
+    { "title": "Global Energy Monitor", "url": "https://www.gem.wiki/TZMS_T%C5%99ineck%C3%A9_%C5%BEelez%C3%A1rny_Trinec_steel_plant" },
+    { "title": "Wikipedia", "url": "https://en.wikipedia.org/wiki/T%C5%99inec_Iron_and_Steel_Works" }
+  ],
+
+  "meta": {
+    "data_quality": "good",
+    "last_updated": "2026-05-18",
+    "verified_fields": ["coordinates", "production_2023", "production_2024", "main_products", "owner", "status"],
+    "needs_verification": ["aggregate_quantities", "capacity_per_product", "financial_data", "utilization_2025"]
+  }
+}

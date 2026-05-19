@@ -1,0 +1,90 @@
+{
+  "plant_id": "zdb_dratovna",
+  "name": "ŽDB Drátovna",
+  "name_full": "ŽDB DRÁTOVNA a.s.",
+  "city": "Bohumín",
+  "district": "Pudlov",
+  "region": "Moravskoslezský kraj",
+  "country": "CZ",
+  "coordinates": { "lat": 49.9072, "lon": 18.3547, "note": "estimated" },
+  "founded": 1885,
+  "owner": "Třinecké železárny – Moravia Steel",
+  "owner_since": "2012-10",
+  "status": "active",
+  "strategic_importance": "medium",
+
+  "summary": {
+    "short": "Найбільший виробник патентованого дроту і сталевих канатів у Чехії. Дочірня компанія Třinecké železárny з 2012. 6 виробничих цехів, діапазон продукції 0.1–74 mm.",
+    "en": "Largest manufacturer of patented wire and steel ropes in the Czech Republic. TŽ subsidiary since 2012. 6 production plants, product range 0.1–74 mm."
+  },
+
+  "production_route": {
+    "type": "Wire drawing (downstream)",
+    "flow": ["Wire rod input (from TŽ)", "Patenting / Heat treatment", "Wire Drawing", "Rope / Spring / Product manufacturing"],
+    "aggregates": [
+      { "name": "Цех патентованого дроту (TPD)", "name_en": "Patented Wire Drawing Plant", "category": "wire_drawing", "status": "active" },
+      { "name": "Цех непатентованого дроту (TND)", "name_en": "Non-patented Wire Drawing Plant", "category": "wire_drawing", "status": "active" },
+      { "name": "Цех сталевих канатів", "name_en": "Steel Wire Rope Plant", "category": "rope", "status": "active" },
+      { "name": "Цех пружин", "name_en": "Spring Plant", "category": "springs", "status": "active" },
+      { "name": "Цех дротяних виробів", "name_en": "Wire Products Plant", "category": "products", "status": "active" },
+      { "name": "Цех волок", "name_en": "Drawing Die Plant", "category": "tooling", "status": "active" }
+    ]
+  },
+
+  "products": [
+    { "name": "Patented wire", "category": "wire", "status": "main", "diameter_mm": "To be verified", "notes": "Основний продукт" },
+    { "name": "Non-patented wire", "category": "wire", "status": "active" },
+    { "name": "Annealed wire", "category": "wire", "status": "active" },
+    { "name": "Steel wire ropes", "category": "rope", "status": "active", "diameter_mm_range": "0.1–74" },
+    { "name": "Steel cords", "category": "cord", "status": "active" },
+    { "name": "Springs", "category": "springs", "status": "active" },
+    { "name": "Profile wire", "category": "wire", "status": "active" },
+    { "name": "Metal fabrics", "category": "mesh", "status": "active" },
+    { "name": "Drawing dies", "category": "tooling", "status": "active" }
+  ],
+
+  "performance_2025": {
+    "production_kt": "To be verified",
+    "utilization_pct": "To be verified",
+    "trend_vs_2024": "positive",
+    "trend_note": "Нові контракти у 2024 (Nedschroef, Anglogold Ashanti)",
+    "source_type": "estimated"
+  },
+
+  "news_2025": [
+    {
+      "date": "2024-02",
+      "type": "investment",
+      "trend": "positive",
+      "title": "Власне виробництво пари для TPD та TND",
+      "summary": "Запущено систему власного виробництва пари — зниження енергозалежності та витрат"
+    },
+    {
+      "date": "2024",
+      "type": "commercial",
+      "trend": "positive",
+      "title": "Серійні поставки annealed wire до Nedschroef (Alten)",
+      "summary": "Новий контракт з автомобільним постачальником"
+    },
+    {
+      "date": "2024-01",
+      "type": "commercial",
+      "trend": "positive",
+      "title": "Перша поставка тросів з трикутних прядей для Anglogold Ashanti",
+      "summary": "11 т тросів спеціальної конструкції для гірничодобувної промисловості"
+    }
+  ],
+
+  "sources": [
+    { "title": "Офіційний сайт ŽDB Drátovna", "url": "https://www.dratovna.cz/en/" },
+    { "title": "EWRIS", "url": "https://ewris.eu/members/zdb-dratovna-as" },
+    { "title": "Expometals", "url": "https://www.expometals.net/en/hall/semi-finished-products/drawn-wire/stand-free/zdb-dratovna-as" }
+  ],
+
+  "meta": {
+    "data_quality": "medium",
+    "last_updated": "2026-05-18",
+    "verified_fields": ["owner", "status", "products", "plant_structure", "news_2024"],
+    "needs_verification": ["exact_coordinates", "production_volumes", "revenue", "capacity_kt"]
+  }
+}

@@ -1,0 +1,259 @@
+{
+  "_meta": {
+    "description": "Czech Republic steel market context — volumes only (kt). For dashboard integration.",
+    "methodology": {
+      "production": "WorldSteel / Czech Steel Union (Ocelářská unie) annual crude steel output",
+      "trade_third_countries": "Eurostat DS-045409 HS72 — rolled products from/to non-EU countries only (GMK Center analysis)",
+      "trade_total": "Czech Steel Union total — HS72/73 steel and steel products, ALL trading partners (EU + third countries). Large volumes explained by CZ re-processing trade: downstream plants (ŽDB, VTC, Velký Šenov, Veselí) import semi-finished/coils, process them, re-export as wire/tubes/strips.",
+      "apparent_consumption": "Czech Steel Union methodology: production + total imports − total exports (HS72/73 steel products only — NOT manufactured goods). High absolute figure (~8 Mt in 2021) reflects CZ role as regional steel processing hub with significant re-export flows.",
+      "by_product": "Czech Steel Union (2021 direct data); other years estimated from plant-level sources (Trinecke + Liberty press releases)"
+    },
+    "confidence_notes": {
+      "high": "production totals, Trinecke plant-level data, 2021 trade totals, 2023 third-country trade",
+      "medium": "apparent consumption totals, product category splits for 2020/2022/2023",
+      "low": "apparent consumption 2020/2022, plant-level product splits for Liberty 2022-2023"
+    },
+    "last_updated": "2026-05-19",
+    "sources": [
+      {
+        "name": "Czech Steel Union (Ocelářská unie) via SteelOrbis — 2021 annual report",
+        "url": "https://www.steelorbis.com/steel-news/latest-news/czech-republics-steel-output-exports-and-imports-rise-in-2021-1238284.htm",
+        "data": ["production_2021", "trade_total_2021", "by_product_2021"]
+      },
+      {
+        "name": "WorldSteel / GMK Center — 2023 annual production",
+        "url": "https://gmk.center/en/news/czech-republic-reduced-steel-production-by-21-1-y-y-in-2023/",
+        "data": ["production_2023"]
+      },
+      {
+        "name": "GMK Center — 2023 third-country trade (Eurostat basis)",
+        "url": "https://gmk.center/en/news/czech-republic-imported-238-2-thousand-tons-of-steel-from-third-countries-in-2023/",
+        "data": ["imports_3rd_2023", "exports_3rd_2023"]
+      },
+      {
+        "name": "Třinecké železárny press releases 2021/2024",
+        "url": "https://www.trz.cz/en/about-us/press-releases/",
+        "data": ["trinecke_production_2021", "trinecke_production_2024", "trinecke_product_breakdown"]
+      },
+      {
+        "name": "GMK Center — Trinecke 2024 annual production",
+        "url": "https://gmk.center/en/news/trinecke-zelezarny-produced-2-42-million-tons-of-steel-in-2024/",
+        "data": ["trinecke_2024"]
+      },
+      {
+        "name": "Liberty Steel Czech — 2021 results",
+        "url": "https://libertysteelgroup.com/cz/news/liberty-ostrava-reports-strong-2021-results/",
+        "data": ["liberty_2021"]
+      },
+      {
+        "name": "GMK Center — Czech steel consumption analysis, Feb 2026",
+        "url": "https://gmk.center/en/posts/steel-consumption-in-the-czech-republic-in-search-of-new-drivers/",
+        "data": ["apparent_consumption_2024", "market_overview"]
+      }
+    ]
+  },
+
+  "production_crude_kt": {
+    "_note": "Total Czech Republic crude steel production (kt). Source: Czech Steel Union / WorldSteel.",
+    "2020": { "value": 4300, "confidence": "high", "note": "Czech Steel Union: -2.6% from 2019 (4420 kt)" },
+    "2021": { "value": 4700, "confidence": "high", "note": "Czech Steel Union direct: +8.7% yoy" },
+    "2022": { "value": 4200, "confidence": "high", "note": "GMK: -11% from 4700 = 4183 kt, rounded" },
+    "2023": { "value": 3400, "confidence": "high", "note": "WorldSteel: -21.1% yoy, due to Liberty Ostrava shutdown" },
+    "2024": { "value": 2440, "confidence": "high", "note": "WorldSteel: -25% yoy. Trinecke=2425 kt, Liberty≈0" }
+  },
+
+  "production_by_category_kt": {
+    "_note": "2021 is from Czech Steel Union (direct). Other years estimated from plant-level data.",
+    "long_kt": {
+      "2020": { "value": 2800, "confidence": "medium", "note": "Est: Liberty(~1100 long) + Trinecke(~1700)" },
+      "2021": { "value": 3100, "confidence": "high",   "note": "Czech Steel Union direct" },
+      "2022": { "value": 2900, "confidence": "medium", "note": "Est: Trinecke(~1760) + Liberty(~1150)" },
+      "2023": { "value": 2300, "confidence": "medium", "note": "Est: Trinecke(~1650) + Liberty reduced(~650)" },
+      "2024": { "value": 1650, "confidence": "high",   "note": "Mainly Trinecke: wire 941 + bars/prof 471 + rails 241" }
+    },
+    "flat_kt": {
+      "2020": { "value": 850,  "confidence": "medium", "note": "Est: Liberty flat(~430) + Vitkovice(~150) + Trinecke wide(~270)" },
+      "2021": { "value": 1100, "confidence": "high",   "note": "Czech Steel Union direct; Liberty flat=680 kt" },
+      "2022": { "value": 820,  "confidence": "medium", "note": "Est: Liberty cut flat production amid energy crisis" },
+      "2023": { "value": 350,  "confidence": "medium", "note": "Est: Liberty ~100 kt + Vitkovice ~150 kt + Trinecke wide ~100 kt" },
+      "2024": { "value": 200,  "confidence": "medium", "note": "Est: Vitkovice plate ~150 + Trinecke wide ~50; Liberty=0" }
+    },
+    "tubes_kt": {
+      "2020": { "value": 360,  "confidence": "medium", "note": "Est: Trinecke + Liberty(pre-2021 level ~100) + VTC + ZV" },
+      "2021": { "value": 405,  "confidence": "high",   "note": "Czech Steel Union direct; Liberty tubes=136 kt" },
+      "2022": { "value": 380,  "confidence": "medium", "note": "Est: Liberty reduced, others stable" },
+      "2023": { "value": 280,  "confidence": "medium", "note": "Est: Liberty tube mill reduced; Trinecke + VTC + Veseli operational" },
+      "2024": { "value": 240,  "confidence": "medium", "note": "Est: Trinecke seamless + VTC + Veseli; Liberty=0" }
+    },
+    "semis_kt": {
+      "2020": { "value": 200, "confidence": "low", "note": "Est: Trinecke billets/blooms for export" },
+      "2021": { "value": 200, "confidence": "low", "note": "Est" },
+      "2022": { "value": 200, "confidence": "low", "note": "Est" },
+      "2023": { "value": 150, "confidence": "low", "note": "Est" },
+      "2024": { "value": 150, "confidence": "low", "note": "Est: Trinecke semis export" }
+    }
+  },
+
+  "trade_total_kt": {
+    "_note": "TOTAL trade (all countries incl EU + steel in manufactured goods). Czech Steel Union methodology (steel equivalent). Only 2021 is directly sourced; others estimated.",
+    "imports_kt": {
+      "2020": { "value": 7200, "confidence": "low",    "note": "Est based on 2021 peak and declining trend" },
+      "2021": { "value": 8300, "confidence": "high",   "note": "Czech Steel Union direct (record high)" },
+      "2022": { "value": 7500, "confidence": "low",    "note": "Est: EU demand declined ~3-4% from 2021" },
+      "2023": { "value": 6500, "confidence": "low",    "note": "Est: continued contraction" },
+      "2024": { "value": 5900, "confidence": "low",    "note": "Est" }
+    },
+    "exports_kt": {
+      "2020": { "value": 4500, "confidence": "low",    "note": "Est" },
+      "2021": { "value": 4900, "confidence": "high",   "note": "Czech Steel Union direct" },
+      "2022": { "value": 4600, "confidence": "low",    "note": "Est" },
+      "2023": { "value": 4100, "confidence": "low",    "note": "Est: Liberty exports collapsed" },
+      "2024": { "value": 3500, "confidence": "low",    "note": "Est" }
+    }
+  },
+
+  "trade_third_countries_rolled_kt": {
+    "_note": "Only non-EU (third country) trade in rolled steel products (HS72). Source: Eurostat via GMK Center. Much smaller than total trade (EU intra-trade not included here).",
+    "imports_kt": {
+      "long_kt": {
+        "2022": { "value": 150, "confidence": "medium", "note": "Est: 2023 long imports were 112 kt (-25% yoy → 2022=~150)" },
+        "2023": { "value": 112, "confidence": "high",   "note": "Eurostat/GMK: -25.2% yoy" }
+      },
+      "flat_kt": {
+        "2022": { "value": 112, "confidence": "medium", "note": "Est: 2023 flat imports were 126 kt (+13% yoy → 2022=~112)" },
+        "2023": { "value": 126, "confidence": "high",   "note": "Eurostat/GMK: +13% yoy; HRC dominant at 62 kt" }
+      },
+      "total_rolled_kt": {
+        "2022": { "value": 261, "confidence": "medium", "note": "Derived: 2023 was 238 kt (-8.9%); 238/0.911=~261" },
+        "2023": { "value": 238, "confidence": "high",   "note": "Eurostat/GMK direct" }
+      }
+    },
+    "exports_kt": {
+      "long_kt": {
+        "2022": { "value": 132, "confidence": "medium", "note": "Derived from 2023 (+10%)" },
+        "2023": { "value": 145, "confidence": "high",   "note": "Eurostat/GMK: rebar 30 kt, bars 32 kt, wire 27 kt" }
+      },
+      "flat_kt": {
+        "2022": { "value": 22,  "confidence": "medium", "note": "Derived from 2023 (+7.7%)" },
+        "2023": { "value": 24,  "confidence": "high",   "note": "Eurostat/GMK" }
+      },
+      "total_rolled_kt": {
+        "2022": { "value": 154, "confidence": "medium", "note": "Derived" },
+        "2023": { "value": 169, "confidence": "high",   "note": "Eurostat/GMK" }
+      }
+    }
+  },
+
+  "apparent_consumption_kt": {
+    "_note": "Czech Steel Union methodology: production + total imports − total exports. All figures in HS72/73 (steel products only — not manufactured goods). High values explained by CZ re-processing trade: downstream mills import coils/semis, process, re-export.",
+    "total_kt": {
+      "2020": { "value": 7000, "confidence": "low",    "note": "Est. Prod 4300 + Imp ~7200 − Exp ~4500" },
+      "2021": { "value": 8100, "confidence": "high",   "note": "Calculated: 4700 + 8300 − 4900 = 8100" },
+      "2022": { "value": 7100, "confidence": "low",    "note": "Est: Prod 4200 + Imp ~7500 − Exp ~4600; EU demand slump" },
+      "2023": { "value": 5800, "confidence": "medium", "note": "Est: annualized from Q2 2023 data (1.5 Mt/Q × 4 ≈ 6000); GMK implies ~6 Mt" },
+      "2024": { "value": 5600, "confidence": "high",   "note": "GMK Center Feb 2026: 'market capacity is 5.6 Mt'; WorldSteel per-capita=532 kg × 10.9M pop" }
+    }
+  },
+
+  "plants": {
+    "trinecke_zelezarny": {
+      "name": "Třinecké železárny",
+      "status": "active",
+      "crude_steel_kt": {
+        "2020": { "value": 2580, "confidence": "high",   "note": "TŽ press: 2021 was 2400 (-7% yoy → 2020=2580)" },
+        "2021": { "value": 2400, "confidence": "high",   "note": "TŽ press release (60-day BF shutdown)" },
+        "2022": { "value": 2500, "confidence": "high",   "note": "TŽ: 'near full capacity'; planned 2.5 Mt" },
+        "2023": { "value": 2415, "confidence": "high",   "note": "GMK Center / TŽ press release" },
+        "2024": { "value": 2425, "confidence": "high",   "note": "GMK Center / TŽ press release June 2025" }
+      },
+      "share_of_cz_production_pct": {
+        "2020": 60, "2021": 51, "2022": 60, "2023": 71, "2024": 99
+      },
+      "products_sold_kt": {
+        "wire_rod":   { "2021": 962, "2024": 941, "note": "Main product; ~70% exported" },
+        "bars_sections": { "2021": 536, "2024": 471, "note": "SBQ/merchant bars; ~63% exported" },
+        "rails":      { "2021": 235, "2024": 241, "note": "Only rail producer in CZ; heavy export" },
+        "seamless_tubes": { "2021": null, "2024": null, "note": "Produced but volumes not publicly split" },
+        "semis":      { "2021": null, "2024": null, "note": "Billets/blooms for export — some volume" }
+      },
+      "exports_pct": { "2024": 69, "2021": 72 },
+      "share_of_cz_long_pct": {
+        "2020": 61, "2021": 55, "2022": 61, "2023": 72, "2024": 100,
+        "_note": "TŽ long production / CZ total long production"
+      }
+    },
+
+    "nova_hut_ostrava": {
+      "name": "Nová Huť (Liberty Ostrava → SPV NH Ostrava from Jul 2025)",
+      "status": "restructuring_2024_sold_2025",
+      "crude_steel_kt": {
+        "2020": { "value": 1710, "confidence": "high",   "note": "Derived: 2021 Liberty = 2280 (+33% yoy)" },
+        "2021": { "value": 2280, "confidence": "high",   "note": "Liberty press: strongest since 2016; +33% yoy" },
+        "2022": { "value": 1800, "confidence": "medium", "note": "Est: CZ total 4200 − Trinecke 2500 = 1700 (Liberty had energy/demand issues)" },
+        "2023": { "value": 990,  "confidence": "medium", "note": "Est: CZ total 3400 − Trinecke 2415 = 985" },
+        "2024": { "value": 15,   "confidence": "medium", "note": "Essentially zero (bankrupt, BF shut Oct 2023, full stop Dec 2023)" }
+      },
+      "share_of_cz_production_pct": {
+        "2020": 40, "2021": 49, "2022": 40, "2023": 29, "2024": 1
+      },
+      "products_2021_kt": {
+        "flat": 680,
+        "long": 1480,
+        "tubes": 136,
+        "_note": "Liberty Ostrava 2021 press release (highest production since 2016)"
+      },
+      "share_of_cz_flat_pct": {
+        "2020": 51, "2021": 62, "2022": 49, "2023": 29, "2024": 0,
+        "_note": "Liberty flat production / CZ total flat production"
+      }
+    },
+
+    "vitkovice_steel": {
+      "name": "Vítkovice Steel (Jindal Shadeed — since 2021)",
+      "status": "active",
+      "main_product": "heavy_plate",
+      "capacity_kt": 800,
+      "estimated_production_kt": {
+        "_note": "Production not publicly disclosed; estimates based on capacity utilization signals",
+        "2020": { "value": 150, "confidence": "low" },
+        "2021": { "value": 175, "confidence": "low" },
+        "2022": { "value": 175, "confidence": "low" },
+        "2023": { "value": 150, "confidence": "low" },
+        "2024": { "value": 150, "confidence": "low" }
+      },
+      "share_of_cz_flat_pct": {
+        "2021": 16, "2024": 75,
+        "_note": "Vitkovice flat / CZ total flat; 2024 high because Liberty=0"
+      }
+    }
+  },
+
+  "market_share_cz_production_pct": {
+    "_description": "Plant share of total Czech crude steel production (kt / kt × 100). For Liberty: 0% in 2024 due to shutdown.",
+    "_how_to_use": "plant_production_kt[year] / cz_production_crude_kt[year] × 100",
+    "trinecke_zelezarny": { "2020": 60, "2021": 51, "2022": 60, "2023": 71, "2024": 99 },
+    "nova_hut_ostrava":   { "2020": 40, "2021": 49, "2022": 40, "2023": 29, "2024": 1  }
+  },
+
+  "market_share_apparent_consumption_pct": {
+    "_description": "Plant crude steel production / CZ apparent consumption × 100. Shows domestic supply coverage. NOTE: CZ is a net steel exporter — plants export most output, so this ratio > 100% is possible and normal.",
+    "trinecke_zelezarny": {
+      "2020": 37, "2021": 30, "2022": 35, "2023": 42, "2024": 43,
+      "_note": "Even at 43% of apparent consumption, TŽ exports 69% of production → domestic supply from TŽ ≈ ~750 kt"
+    },
+    "nova_hut_ostrava": {
+      "2020": 24, "2021": 28, "2022": 25, "2023": 17, "2024": 0
+    }
+  },
+
+  "key_market_insights": [
+    "Czech Republic is a net steel IMPORTER in volume terms (imports 8.3 Mt vs production 4.7 Mt in 2021), but a major RE-EXPORTER: downstream mills import coils/semis/wire rod, process them, re-export as wire/tubes/strips/coated products",
+    "Apparent consumption peaked at ~8.1 Mt in 2021 (post-COVID rebound) and declined to ~5.6 Mt in 2024 — a 31% drop in 4 years",
+    "The decline is driven by: (1) Liberty Ostrava collapse 2023-2024, (2) EU steel demand recession, (3) energy cost crisis",
+    "In 2024, Třinecké železárny became effectively the only primary steel producer in CZ (~99% of crude steel)",
+    "Czech Republic ranks ~40th globally in steel production (was ~30th in 2021)",
+    "Steel consumption per capita 2024: 532 kg/person — still one of the highest in EU, driven by auto industry (Skoda, Toyota, Hyundai)",
+    "New owners (SPV NH Ostrava) took over Liberty in July 2025 — production restart expected; if successful, CZ output could recover to 4+ Mt",
+    "Třinecké železárny plans EAF transition by 2030 (awaiting €1.7B government support)"
+  ]
+}

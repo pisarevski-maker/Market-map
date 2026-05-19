@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Czech Steel Intelligence · 2025</title>
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:           #FFFFFF;
+      --text:         #1E1E1E;
+      --text-muted:   #6B6B6B;
+      --accent-dark:  #7A1F2B;
+      --accent-mid:   #9B1C31;
+      --accent-light: #C94555;
+      --positive:     #2E7D32;
+      --warning:      #E6862C;
+      --negative:     #B3261E;
+      --border:       #E8E8E8;
+      --map-bg:       #F7F7F5;
+      --card-shadow:  0 1px 4px rgba(0,0,0,0.07);
+      --font:         'Inter', 'Helvetica Neue', Arial, sans-serif;
+    }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* ── Header ───────────────────────────────────────────── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 48px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-dot {
+      width: 8px; height: 8px;
+      background: var(--accent-mid);
+      border-radius: 50%;
+    }
+    .header-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    .header-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-left: 4px;
+    }
+    .header-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .header-badge {
+      background: #FFF4F0;
+      color: var(--accent-dark);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid #F5D0C8;
+    }
+
+    /* ── KPI Row ──────────────────────────────────────────── */
+    .kpi-row {
+      display: flex;
+      gap: 1px;
+      background: var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .kpi-card {
+      flex: 1;
+      background: var(--bg);
+      padding: 10px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .kpi-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .kpi-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .kpi-trend {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-top: 2px;
+      width: fit-content;
+    }
+    .kpi-trend.positive { color: var(--positive); background: #F0F9F0; }
+    .kpi-trend.neutral  { color: var(--text-muted); background: #F5F5F5; }
+    .kpi-trend.negative { color: var(--negative); background: #FFF0EF; }
+    .kpi-trend.warning  { color: var(--warning); background: #FFF8F0; }
+
+    /* ── Main Layout ──────────────────────────────────────── */
+    .dashboard-body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ── Sidebar ──────────────────────────────────────────── */
+    .sidebar {
+      width: 176px;
+      min-width: 176px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      background: #FAFAFA;
+    }
+    .sidebar-section {
+      padding: 20px 20px 0;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+    }
+    .sidebar-section:last-child { border-bottom: none; }
+    .sidebar-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .filter-group { margin-bottom: 14px; }
+    .filter-group:last-child { margin-bottom: 0; }
+    .filter-title {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .filter-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 5px 8px;
+      border-radius: 4px;
+      border: none;
+      background: none;
+      font-size: 13px;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.12s;
+      font-family: var(--font);
+      margin-bottom: 2px;
+    }
+    .filter-btn:hover { background: var(--border); }
+    .filter-btn.active {
+      background: #F5E9EA;
+      color: var(--accent-dark);
+      font-weight: 500;
+    }
+    .filter-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-right: 7px;
+      vertical-align: middle;
+    }
+
+    /* Plant preview in sidebar */
+    .plant-preview {
+      display: none;
+      padding: 20px;
+    }
+    .plant-preview.visible { display: block; }
+    .preview-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .preview-city {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .preview-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .preview-status.active   { background: #F0F9F0; color: var(--positive); }
+    .preview-status.restart  { background: #FFF8F0; color: var(--warning); }
+    .preview-owner {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .preview-products {
+      font-size: 12px;
+      color: var(--text);
+    }
+    .preview-products span {
+      display: inline-block;
+      background: #F3F3F3;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin: 2px 2px 0 0;
+      font-size: 11px;
+    }
+    .preview-link {
+      display: block;
+      margin-top: 14px;
+      padding: 7px 12px;
+      background: var(--accent-mid);
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+      text-align: center;
+      transition: background 0.15s;
+    }
+    .preview-link:hover { background: var(--accent-dark); }
+
+    .sidebar-hint {
+      padding: 20px;
+      color: var(--text-muted);
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .sidebar-hint span { font-size: 20px; display: block; margin-bottom: 6px; }
+
+    /* ── Map Container ────────────────────────────────────── */
+    .map-container {
+      flex: 1;
+      min-height: 0;          /* critical: lets flex child shrink below content size */
+      background: var(--map-bg);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+    }
+    #cz-map {
+      /* fill container — SVG preserveAspectRatio meet handles letterboxing */
+      display: block;
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 2px 12px rgba(0,0,0,0.06));
+    }
+
+    /* Map SVG elements */
+    .cz-fill {
+      fill: #FFFFFF;
+      stroke: #C8C8C4;
+      stroke-width: 1.5;
+      stroke-linejoin: round;
+    }
+    .plant-marker {
+      cursor: pointer;
+      transition: r 0.15s;
+    }
+    .plant-marker circle.outer {
+      fill: none;
+      stroke-width: 1.5;
+      opacity: 0.3;
+    }
+    .plant-marker circle.inner {
+      stroke: white;
+      stroke-width: 1.5;
+    }
+    .plant-marker:hover circle.inner {
+      r: 11;
+    }
+    .plant-marker:hover circle.outer {
+      r: 18;
+      opacity: 0.5;
+    }
+    .plant-label {
+      pointer-events: none;
+      font-family: var(--font);
+      font-size: 9px;
+      fill: var(--text);
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Tooltip ──────────────────────────────────────────── */
+    .tooltip {
+      position: absolute;
+      display: none;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 14px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      pointer-events: none;
+      z-index: 200;
+      min-width: 180px;
+      max-width: 240px;
+    }
+    .tooltip.visible { display: block; }
+    .tooltip-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .tooltip-city {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .tooltip-row {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+    .tooltip-row strong { color: var(--text); }
+    .tooltip-hint {
+      font-size: 10px;
+      color: var(--accent-light);
+      margin-top: 6px;
+      font-style: italic;
+    }
+
+    /* ── Market Panel ────────────────────────────────────── */
+    .market-panel {
+      height: 168px;
+      min-height: 168px;
+      flex-shrink: 0;
+      border-top: 1px solid var(--border);
+      background: #FAFAFA;
+      display: flex;
+      gap: 0;
+      overflow: hidden;
+    }
+    .mp-section {
+      padding: 12px 20px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+    .mp-section:last-child { border-right: none; flex: 1; }
+    .mp-title {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* Production trend table */
+    .prod-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .prod-table th {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-align: right;
+      padding: 0 6px 4px;
+      border-bottom: 1px solid var(--border);
+    }
+    .prod-table th:first-child { text-align: left; }
+    .prod-table td {
+      padding: 3px 6px;
+      text-align: right;
+      color: var(--text);
+      border-bottom: 1px solid #F0F0F0;
+      white-space: nowrap;
+    }
+    .prod-table td:first-child { text-align: left; color: var(--text-muted); font-weight: 500; }
+    .prod-table tr:last-child td { border-bottom: none; }
+    .prod-table .row-total td { font-weight: 600; color: var(--text); background: #F7F7F5; }
+    .prod-table .row-trinecke td:first-child { color: var(--accent-dark); }
+    .prod-table .row-liberty td:first-child  { color: var(--warning); }
+    .cell-zero { color: var(--text-muted) !important; font-size: 10px; }
+
+    /* Mini bar chart for apparent consumption */
+    .bar-chart { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+    .bar-row { display: flex; align-items: center; gap: 7px; }
+    .bar-year { font-size: 10px; color: var(--text-muted); width: 32px; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 10px; background: #EDEDEB; border-radius: 2px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 2px; transition: width 0.4s; }
+    .bar-value { font-size: 10px; color: var(--text); width: 44px; text-align: right; flex-shrink: 0; }
+
+    /* Trade mini table */
+    .trade-grid { display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: 2px 10px; align-items: center; }
+    .tg-head { font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 500; padding-bottom: 4px; }
+    .tg-year { font-size: 10px; color: var(--text-muted); font-weight: 500; }
+    .tg-imp  { font-size: 11px; color: var(--text); text-align: right; }
+    .tg-exp  { font-size: 11px; color: var(--text); text-align: right; }
+    .tg-imp.net-imp { color: var(--negative); }
+    .tg-exp.net-exp { color: var(--positive); }
+
+    /* Insight box */
+    .insight-list { display: flex; flex-direction: column; gap: 5px; }
+    .insight-item {
+      font-size: 11px;
+      color: var(--text);
+      line-height: 1.4;
+      padding: 4px 8px;
+      background: var(--bg);
+      border-left: 2px solid var(--border);
+      border-radius: 0 3px 3px 0;
+    }
+    .insight-item.warn { border-left-color: var(--warning); }
+    .insight-item.pos  { border-left-color: var(--positive); }
+    .insight-item.neg  { border-left-color: var(--negative); }
+
+    /* ── Footer ───────────────────────────────────────────── */
+    .footer {
+      padding: 6px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--bg);
+    }
+    .footer a { color: var(--text-muted); text-decoration: none; }
+    .footer a:hover { color: var(--accent-mid); }
+
+    /* ── Legend (HTML, bottom-left — no plants in that zone) ── */
+    .legend {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(255,255,255,0.94);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 11px;
+      box-shadow: var(--card-shadow);
+      pointer-events: none;
+    }
+    .legend-title {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 7px;
+      font-weight: 600;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 4px;
+      color: var(--text);
+      font-size: 10.5px;
+    }
+    .legend-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────────────── -->
+<header class="header">
+  <div class="header-brand">
+    <div class="header-dot"></div>
+    <span class="header-title">Czech Steel Intelligence</span>
+    <span class="header-subtitle">· Interactive Producer Map</span>
+  </div>
+  <div class="header-meta">
+    <span>Data: 2024–2025</span>
+    <span class="header-badge">Research Preview</span>
+  </div>
+</header>
+
+<!-- ── KPI ROW ────────────────────────────────────────────── -->
+<div class="kpi-row">
+  <div class="kpi-card">
+    <div class="kpi-label">CZ Crude Steel 2025</div>
+    <div class="kpi-value">2.43 <span style="font-size:14px;font-weight:400;color:var(--text-muted)">Mt</span></div>
+    <div class="kpi-trend neutral">→ Near historic low</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">vs 2024</div>
+    <div class="kpi-value">+2%</div>
+    <div class="kpi-trend positive">↑ 1H 2025 growth</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Plants Tracked</div>
+    <div class="kpi-value">7</div>
+    <div class="kpi-sub">6 Active · 1 Restart</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Key Developments</div>
+    <div class="kpi-value" style="font-size:15px;margin-top:2px">Nová Huť EAF</div>
+    <div class="kpi-trend warning">⚡ 17B CZK project</div>
+  </div>
+</div>
+
+<!-- ── DASHBOARD BODY ─────────────────────────────────────── -->
+<div class="dashboard-body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Filters</div>
+
+      <div class="filter-group">
+        <div class="filter-title">Status</div>
+        <button class="filter-btn active" data-filter="status" data-value="all">
+          <span class="filter-dot" style="background:#9B1C31"></span>All plants
+        </button>
+        <button class="filter-btn" data-filter="status" data-value="active">
+          <span class="filter-dot" style="background:var(--positive)"></span>Active
+        </button>
+        <button class="filter-btn" data-filter="status" data-value="restart">
+          <span class="filter-dot" style="background:var(--warning)"></span>Restart / Transition
+        </button>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-title">Production type</div>
+        <button class="filter-btn active" data-filter="type" data-value="all">All types</button>
+        <button class="filter-btn" data-filter="type" data-value="integrated">Integrated (BF+BOF)</button>
+        <button class="filter-btn" data-filter="type" data-value="eaf_planned">EAF / Transition</button>
+        <button class="filter-btn" data-filter="type" data-value="re_roller">Re-roller</button>
+        <button class="filter-btn" data-filter="type" data-value="downstream">Downstream</button>
+      </div>
+    </div>
+
+    <!-- Plant preview panel -->
+    <div class="sidebar-section" id="preview-section">
+      <div class="sidebar-label">Plant Info</div>
+      <div class="plant-preview" id="plant-preview"></div>
+      <div class="sidebar-hint" id="sidebar-hint">
+        <span>🏭</span>
+        Hover over a plant marker to see details
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- MAP CONTAINER -->
+  <div class="map-container" id="map-container">
+
+    <svg id="cz-map" viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg">
+      <!-- Czech Republic outline — drawn by JS -->
+      <g id="cz-border-group"></g>
+      <!-- Plant markers — drawn by JS -->
+      <g id="markers-group"></g>
+      <!-- SVG legend — always on top -->
+      <g id="legend-group"></g>
+    </svg>
+
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip">
+      <div class="tooltip-name" id="tt-name"></div>
+      <div class="tooltip-city" id="tt-city"></div>
+      <div class="tooltip-row"><span>Owner</span><strong id="tt-owner"></strong></div>
+      <div class="tooltip-row"><span>Type</span><strong id="tt-type"></strong></div>
+      <div class="tooltip-row"><span>Status</span><strong id="tt-status"></strong></div>
+      <div class="tooltip-hint">Click to open full profile →</div>
+    </div>
+
+    <!-- Legend — bottom-left, no plants in this map zone -->
+    <div class="legend">
+      <div class="legend-title">Legend</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#7A1F2B"></span>Critical / Integrated</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#9B1C31"></span>Active</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#C94555"></span>Downstream</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#E6862C"></span>Restart / Transition</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── MARKET PANEL ───────────────────────────────────────── -->
+<div class="market-panel" id="market-panel">
+
+  <!-- 1. Czech Production Trend -->
+  <div class="mp-section" style="min-width:340px">
+    <div class="mp-title">CZ Steel Production, kt/рік</div>
+    <table class="prod-table" id="prod-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th>
+        </tr>
+      </thead>
+      <tbody id="prod-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- 2. Apparent Consumption -->
+  <div class="mp-section" style="min-width:200px">
+    <div class="mp-title">Видиме споживання ЧР, kt</div>
+    <div class="bar-chart" id="cons-bars"></div>
+  </div>
+
+  <!-- 3. Trade (3rd countries rolled + EU implied) -->
+  <div class="mp-section" style="min-width:260px">
+    <div class="mp-title">Trade 3-ті країни + EU implied нетто, kt</div>
+    <div class="trade-grid" id="trade-grid">
+      <div class="tg-head"></div>
+      <div class="tg-head" style="text-align:right">3-ті імп.</div>
+      <div class="tg-head" style="text-align:right">3-ті експ.</div>
+      <div class="tg-head" style="text-align:right">EU нетто імп*</div>
+    </div>
+  </div>
+
+  <!-- 4. Key Insights -->
+  <div class="mp-section">
+    <div class="mp-title">Ринковий контекст</div>
+    <div class="insight-list" id="insight-list"></div>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
+<footer class="footer">
+  <span>Sources: GMK Center · EUROMETAL · Global Energy Monitor · Company websites · Worldsteel</span>
+  <span>Czech Steel Intelligence · Data as of May 2025 · <em>Research preview — verify before use</em></span>
+</footer>
+
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   DATA
+   ════════════════════════════════════════════════════════════ */
+
+const PLANTS = [
+  {
+    plant_id: "trinecke_zelezarny",
+    name: "Třinecké železárny",
+    city: "Třinec",
+    region: "Moravskoslezský kraj",
+    owner: "Moravia Steel",
+    owner_origin: "CZ",
+    status: "active",
+    production_type: "integrated",
+    crude_steel_kt_2024: 2420,
+    main_products: ["Wire rod","Rebar","Rails","Seamless pipes"],
+    strategic_importance: "critical",
+    marker_color: "#7A1F2B",
+    coordinates: { lat: 49.6891, lon: 18.6546 },
+    detail_file: "plant-detail.html"
+  },
+  {
+    plant_id: "nova_hut_ostrava",
+    name: "Nová Huť",
+    city: "Ostrava",
+    region: "Moravskoslezský kraj",
+    owner: "SPV NH Ostrava",
+    owner_origin: "CZ",
+    status: "restart",
+    production_type: "eaf_planned",
+    crude_steel_kt_2024: 0,
+    main_products: ["Pipes","Coils","Long products"],
+    strategic_importance: "high",
+    marker_color: "#E6862C",
+    coordinates: { lat: 49.8144, lon: 18.2912 },
+    display_offset: { dx: -100, dy: -38, shelf_dir: -1 },
+    display_label: "Nová Huť",
+    detail_file: "plant-detail.html"
+  },
+  {
+    plant_id: "vitkovice_steel",
+    name: "Vítkovice Steel",
+    city: "Ostrava",
+    region: "Moravskoslezský kraj",
+    owner: "Jindal (India)",
+    owner_origin: "IN",
+    status: "active",
+    production_type: "re_roller",
+    crude_steel_kt_2024: 0,
+    capacity_rolled_kt: 800,
+    main_products: ["Heavy plate","Sheet piling"],
+    strategic_importance: "high",
+    marker_color: "#9B1C31",
+    coordinates: { lat: 49.8198, lon: 18.2607 },
+    display_offset: { dx: -100, dy: +52, shelf_dir: -1 },
+    display_label: "Vítkovice",
+    detail_file: "plant-detail.html"
+  },
+  {
+    plant_id: "zdb_dratovna",
+    name: "ŽDB Drátovna",
+    city: "Bohumín",
+    region: "Moravskoslezský kraj",
+    owner: "Moravia Steel / TŽ",
+    owner_origin: "CZ",
+    status: "active",
+    production_type: "wire_drawing",
+    main_products: ["Wire","Steel ropes","Springs"],
+    strategic_importance: "medium",
+    marker_color: "#C94555",
+    coordinates: { lat: 49.9072, lon: 18.3547 },
+    display_offset: { dx: +62, dy: -60, shelf_dir: 1 },
+    display_label: "Bohumín",
+    detail_file: "plant-detail.html"
+  },
+  {
+    plant_id: "zelezarny_velky_senov",
+    name: "Železárny Velký Šenov",
+    city: "Velký Šenov",
+    region: "Ústecký kraj",
+    owner: "Private (CZ)",
+    owner_origin: "CZ",
+    status: "active",
+    production_type: "cold_rolling",
+    main_products: ["Cold strip","Galvanized strip"],
+    strategic_importance: "low",
+    marker_color: "#C94555",
+    coordinates: { lat: 50.9833, lon: 14.3667 },
+    detail_file: "plant-detail.html"
+  },
+  {
+    plant_id: "valcovny_trub_chomutov",
+    name: "Válcovny trub Chomutov",
+    city: "Chomutov",
+    region: "Ústecký kraj",
+    owner: "Z-Group",
+    owner_origin: "CZ",
+    status: "active",
+    production_type: "seamless_tubes",
+    main_products: ["Seamless tubes OD 273–660mm"],
+    strategic_importance: "medium",
+    marker_color: "#9B1C31",
+    coordinates: { lat: 50.4604, lon: 13.4178 },
+    detail_file: "plant-detail.html"
+  },
+  {
+    plant_id: "zelezarny_veseli",
+    name: "Železárny Veselí",
+    city: "Veselí nad Moravou",
+    region: "Jihomoravský kraj",
+    owner: "Z-Group",
+    owner_origin: "CZ",
+    status: "active",
+    production_type: "tubes_profiles",
+    main_products: ["Tubes","Bars","Profiles"],
+    strategic_importance: "medium",
+    marker_color: "#C94555",
+    coordinates: { lat: 48.9536, lon: 17.3765 },
+    detail_file: "plant-detail.html"
+  }
+];
+
+/* Czech Republic border (simplified, ~55 key points, clockwise from NW) */
+const CZ_BORDER_LONLAT = [
+  [12.17,50.20],[12.35,50.35],[12.65,50.53],[12.92,50.55],[13.15,50.52],
+  [13.35,50.58],[13.60,50.67],[13.85,50.80],[14.00,50.88],[14.27,51.01],
+  [14.57,51.01],[14.83,50.87],[15.05,50.94],[15.30,50.83],[15.57,50.80],
+  [16.00,50.67],[16.35,50.57],[16.65,50.47],[16.90,50.43],[17.13,50.27],
+  [17.35,50.15],[17.58,50.00],[17.88,49.97],[18.15,49.97],[18.35,49.97],
+  [18.57,49.90],[18.87,49.78],[18.85,49.60],[18.75,49.48],[18.55,49.47],
+  [18.35,49.46],[18.20,49.34],[18.05,49.10],[17.90,48.85],[17.75,48.78],
+  [17.55,48.72],[17.26,48.64],[17.05,48.63],[16.95,48.60],[16.75,48.68],
+  [16.55,48.76],[16.35,48.73],[16.10,48.68],[15.85,48.85],[15.55,49.00],
+  [15.20,49.00],[14.92,48.95],[14.70,48.85],[14.47,48.73],[14.32,48.66],
+  [14.00,48.78],[13.82,48.77],[13.50,48.95],[13.20,49.13],[13.00,49.30],
+  [12.75,49.52],[12.50,49.77],[12.33,50.00],[12.17,50.20]
+];
+
+/* ════════════════════════════════════════════════════════════
+   PROJECTION
+   ════════════════════════════════════════════════════════════ */
+
+const LON_MIN = 11.40, LON_MAX = 19.70; // wider bounds for breathing room
+const LAT_MIN = 47.90, LAT_MAX = 51.60; // wider bounds for breathing room
+const SVG_W = 750, SVG_H = 380;
+const PAD_X = 25,  PAD_Y = 20;
+
+function project(lon, lat) {
+  const x = PAD_X + (lon - LON_MIN) / (LON_MAX - LON_MIN) * SVG_W;
+  const y = PAD_Y + (LAT_MAX - lat) / (LAT_MAX - LAT_MIN) * SVG_H;
+  return { x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 };
+}
+
+/* ════════════════════════════════════════════════════════════
+   MAP RENDERING
+   ════════════════════════════════════════════════════════════ */
+
+function buildBorderPath() {
+  const pts = CZ_BORDER_LONLAT.map(([lon, lat]) => project(lon, lat));
+  let d = `M ${pts[0].x} ${pts[0].y}`;
+  for (let i = 1; i < pts.length; i++) {
+    d += ` L ${pts[i].x} ${pts[i].y}`;
+  }
+  d += ' Z';
+  return d;
+}
+
+function renderMap() {
+  const borderGroup = document.getElementById('cz-border-group');
+  const markersGroup = document.getElementById('markers-group');
+
+  // Draw Czech Republic outline
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', buildBorderPath());
+  path.setAttribute('class', 'cz-fill');
+  borderGroup.appendChild(path);
+
+  // Subtle grid label
+  const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  label.setAttribute('x', '400');
+  label.setAttribute('y', '410');
+  label.setAttribute('text-anchor', 'middle');
+  label.setAttribute('font-size', '10');
+  label.setAttribute('fill', '#C0C0BA');
+  label.setAttribute('font-family', 'Inter, sans-serif');
+  label.textContent = 'CZECH REPUBLIC';
+  borderGroup.appendChild(label);
+
+  // Draw plant markers
+  PLANTS.forEach(plant => {
+    if (!plant._visible) plant._visible = true;
+    drawMarker(markersGroup, plant);
+  });
+
+  // Legend is an HTML div (see .legend class) — no SVG needed
+}
+
+/* Draw a cartographic leader line with shelf ("виноска з полочкою") */
+function drawLeaderLine(parent, plant, truePt, displayPt) {
+  const shelfDir = plant.display_offset.shelf_dir || 1;
+  const r = plant.strategic_importance === 'critical' ? 9 :
+            plant.strategic_importance === 'high'     ? 8 : 7;
+  const shelfLen = 24;
+  const col = plant.marker_color;
+
+  const grp = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  grp.style.pointerEvents = 'none';
+
+  // 1. Small anchor dot at the true geographic position
+  const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  dot.setAttribute('cx', truePt.x);
+  dot.setAttribute('cy', truePt.y);
+  dot.setAttribute('r', 3);
+  dot.setAttribute('fill', col);
+  dot.setAttribute('opacity', '0.55');
+  grp.appendChild(dot);
+
+  // 2. Dashed leader line: true dot → display marker centre
+  const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  line.setAttribute('x1', truePt.x);
+  line.setAttribute('y1', truePt.y);
+  line.setAttribute('x2', displayPt.x);
+  line.setAttribute('y2', displayPt.y);
+  line.setAttribute('stroke', col);
+  line.setAttribute('stroke-width', '0.75');
+  line.setAttribute('stroke-dasharray', '4,3');
+  line.setAttribute('opacity', '0.40');
+  grp.appendChild(line);
+
+  // 3. Shelf: short horizontal line extending from the marker side
+  const sx1 = displayPt.x + (shelfDir > 0 ? r + 2 : -(r + 2));
+  const sx2 = sx1 + shelfDir * shelfLen;
+  const shelf = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  shelf.setAttribute('x1', sx1);
+  shelf.setAttribute('y1', displayPt.y);
+  shelf.setAttribute('x2', sx2);
+  shelf.setAttribute('y2', displayPt.y);
+  shelf.setAttribute('stroke', col);
+  shelf.setAttribute('stroke-width', '1');
+  shelf.setAttribute('opacity', '0.70');
+  grp.appendChild(shelf);
+
+  // 4. Label sitting just above the shelf
+  const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  lbl.setAttribute('class', 'plant-label');
+  lbl.setAttribute('x', sx2 + shelfDir * 3);
+  lbl.setAttribute('y', displayPt.y - 3);
+  lbl.setAttribute('text-anchor', shelfDir > 0 ? 'start' : 'end');
+  lbl.textContent = plant.display_label || plant.city;
+  grp.appendChild(lbl);
+
+  // Insert behind markers so the circles appear on top
+  if (parent.firstChild) {
+    parent.insertBefore(grp, parent.firstChild);
+  } else {
+    parent.appendChild(grp);
+  }
+}
+
+function drawMarker(parent, plant) {
+  const truePt = project(plant.coordinates.lon, plant.coordinates.lat);
+  const displayPt = plant.display_offset
+    ? { x: Math.round((truePt.x + plant.display_offset.dx) * 10) / 10,
+        y: Math.round((truePt.y + plant.display_offset.dy) * 10) / 10 }
+    : truePt;
+
+  const r = plant.strategic_importance === 'critical' ? 9 :
+            plant.strategic_importance === 'high'     ? 8 : 7;
+
+  // Draw leader line first (renders behind the marker circle)
+  if (plant.display_offset) {
+    drawLeaderLine(parent, plant, truePt, displayPt);
+  }
+
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  g.setAttribute('class', 'plant-marker');
+  g.setAttribute('data-id', plant.plant_id);
+  g.setAttribute('transform', `translate(${displayPt.x}, ${displayPt.y})`);
+
+  // Outer glow circle
+  const outer = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  outer.setAttribute('class', 'outer');
+  outer.setAttribute('cx', 0); outer.setAttribute('cy', 0);
+  outer.setAttribute('r', r + 6);
+  outer.setAttribute('fill', plant.marker_color);
+  outer.setAttribute('stroke', plant.marker_color);
+
+  // Inner filled circle
+  const inner = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  inner.setAttribute('class', 'inner');
+  inner.setAttribute('cx', 0); inner.setAttribute('cy', 0);
+  inner.setAttribute('r', r);
+  inner.setAttribute('fill', plant.marker_color);
+
+  g.appendChild(outer);
+  g.appendChild(inner);
+
+  // Label below — only for non-offset markers (offset ones get shelf label)
+  if (!plant.display_offset) {
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('class', 'plant-label');
+    text.setAttribute('x', 0);
+    text.setAttribute('y', r + 11);
+    text.setAttribute('text-anchor', 'middle');
+    text.textContent = plant.city;
+    g.appendChild(text);
+  }
+
+  // Events
+  g.addEventListener('mouseenter', (e) => onMarkerEnter(e, plant, g));
+  g.addEventListener('mouseleave', onMarkerLeave);
+  g.addEventListener('click', () => onMarkerClick(plant));
+
+  parent.appendChild(g);
+  plant._element = g;
+}
+
+/* SVG legend in top-left corner of the map — never overlaps markers */
+function drawSVGLegend(svgEl) {
+  const items = [
+    { color: '#7A1F2B', label: 'Critical / Integrated' },
+    { color: '#9B1C31', label: 'Active' },
+    { color: '#C94555', label: 'Downstream' },
+    { color: '#E6862C', label: 'Restart / Transition' },
+  ];
+
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  g.setAttribute('transform', 'translate(8, 10)');
+  g.style.pointerEvents = 'none';
+
+  const boxH = 16 + items.length * 17 + 6;
+  const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  bg.setAttribute('x', 0); bg.setAttribute('y', 0);
+  bg.setAttribute('width', 152); bg.setAttribute('height', boxH);
+  bg.setAttribute('rx', 4);
+  bg.setAttribute('fill', 'rgba(255,255,255,0.93)');
+  bg.setAttribute('stroke', '#E8E8E8');
+  bg.setAttribute('stroke-width', '1');
+  g.appendChild(bg);
+
+  const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  title.setAttribute('x', '9'); title.setAttribute('y', '12');
+  title.setAttribute('font-size', '7.5');
+  title.setAttribute('font-weight', '600');
+  title.setAttribute('letter-spacing', '0.07em');
+  title.setAttribute('fill', '#6B6B6B');
+  title.setAttribute('font-family', 'Inter, Helvetica Neue, sans-serif');
+  title.textContent = 'LEGEND';
+  g.appendChild(title);
+
+  items.forEach((item, i) => {
+    const y = 16 + 6 + i * 17;
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', '14'); circle.setAttribute('cy', y + 3);
+    circle.setAttribute('r', '5'); circle.setAttribute('fill', item.color);
+    g.appendChild(circle);
+
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', '25'); text.setAttribute('y', y + 7);
+    text.setAttribute('font-size', '9.5');
+    text.setAttribute('fill', '#1E1E1E');
+    text.setAttribute('font-family', 'Inter, Helvetica Neue, sans-serif');
+    text.textContent = item.label;
+    g.appendChild(text);
+  });
+
+  svgEl.appendChild(g);
+}
+
+/* ════════════════════════════════════════════════════════════
+   INTERACTIONS
+   ════════════════════════════════════════════════════════════ */
+
+let activeFilter = { status: 'all', type: 'all' };
+
+function onMarkerEnter(e, plant, g) {
+  showTooltip(e, plant);
+  showSidebarPreview(plant);
+  // Highlight marker
+  const inner = g.querySelector('.inner');
+  if (inner) {
+    const r = plant.strategic_importance === 'critical' ? 11 :
+              plant.strategic_importance === 'high'     ? 10 : 9;
+    inner.setAttribute('r', r);
+  }
+}
+
+function onMarkerLeave() {
+  hideTooltip();
+  // Reset sizes — handled by CSS transition on hover end
+  PLANTS.forEach(p => {
+    if (p._element) {
+      const inner = p._element.querySelector('.inner');
+      if (inner) {
+        const r = p.strategic_importance === 'critical' ? 9 :
+                  p.strategic_importance === 'high'     ? 8 : 7;
+        inner.setAttribute('r', r);
+      }
+    }
+  });
+}
+
+function onMarkerClick(plant) {
+  window.location.href = `${plant.detail_file}?id=${plant.plant_id}`;
+}
+
+function showTooltip(e, plant) {
+  const tooltip  = document.getElementById('tooltip');
+  const container = document.getElementById('map-container');
+  const rect = container.getBoundingClientRect();
+
+  document.getElementById('tt-name').textContent   = plant.name;
+  document.getElementById('tt-city').textContent   = `${plant.city} · ${plant.region}`;
+  document.getElementById('tt-owner').textContent  = plant.owner;
+  document.getElementById('tt-type').textContent   = formatType(plant.production_type);
+  document.getElementById('tt-status').textContent = formatStatus(plant.status);
+
+  let x = e.clientX - rect.left + 16;
+  let y = e.clientY - rect.top  - 10;
+  if (x + 250 > rect.width)  x -= 270;
+  if (y + 140 > rect.height) y -= 150;
+
+  tooltip.style.left = x + 'px';
+  tooltip.style.top  = y + 'px';
+  tooltip.classList.add('visible');
+}
+
+function hideTooltip() {
+  document.getElementById('tooltip').classList.remove('visible');
+}
+
+function showSidebarPreview(plant) {
+  const preview = document.getElementById('plant-preview');
+  const hint    = document.getElementById('sidebar-hint');
+
+  const statusClass = plant.status === 'restart' ? 'restart' : 'active';
+  const statusText  = plant.status === 'restart' ? '⚡ Restart / Transition' : '● Active';
+  const prodTags    = plant.main_products.map(p => `<span>${p}</span>`).join('');
+
+  preview.innerHTML = `
+    <div class="preview-name">${plant.name}</div>
+    <div class="preview-city">${plant.city} · ${plant.region}</div>
+    <div class="preview-status ${statusClass}">${statusText}</div>
+    <div class="preview-owner">Owner: <strong>${plant.owner}</strong> ${plant.owner_origin === 'IN' ? '🇮🇳' : '🇨🇿'}</div>
+    <div class="preview-products">${prodTags}</div>
+    <a class="preview-link" href="${plant.detail_file}?id=${plant.plant_id}">View full profile →</a>
+  `;
+  preview.classList.add('visible');
+  hint.style.display = 'none';
+}
+
+function hideSidebarPreview() {
+  document.getElementById('plant-preview').classList.remove('visible');
+  document.getElementById('sidebar-hint').style.display = '';
+}
+
+/* ── Filters ──────────────────────────────────────────────── */
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const filterGroup = btn.dataset.filter;
+    document.querySelectorAll(`.filter-btn[data-filter="${filterGroup}"]`)
+      .forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter[filterGroup] = btn.dataset.value;
+    applyFilters();
+  });
+});
+
+function applyFilters() {
+  PLANTS.forEach(plant => {
+    const matchStatus = activeFilter.status === 'all' || plant.status === activeFilter.status;
+    const matchType   = activeFilter.type   === 'all' || plant.production_type === activeFilter.type
+                        || (activeFilter.type === 'downstream' &&
+                            ['wire_drawing','cold_rolling','seamless_tubes','tubes_profiles'].includes(plant.production_type));
+    const visible = matchStatus && matchType;
+
+    if (plant._element) {
+      plant._element.style.display = visible ? '' : 'none';
+    }
+  });
+  hideSidebarPreview();
+}
+
+/* ── Helpers ──────────────────────────────────────────────── */
+
+function formatType(type) {
+  const map = {
+    integrated:     'BF + BOF (Integrated)',
+    eaf_planned:    'EAF (planned)',
+    re_roller:      'Re-roller',
+    wire_drawing:   'Wire drawing',
+    cold_rolling:   'Cold rolling',
+    seamless_tubes: 'Seamless tubes',
+    tubes_profiles: 'Tubes & profiles'
+  };
+  return map[type] || type;
+}
+
+function formatStatus(status) {
+  return status === 'active' ? '✓ Active' : '⚡ Restart / Transition';
+}
+
+/* ════════════════════════════════════════════════════════════
+   INIT
+   ════════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════════
+   MARKET DATA  (inline from market_context.json research)
+   ════════════════════════════════════════════════════════════ */
+
+const MARKET = {
+  years: [2020, 2021, 2022, 2023, 2024],
+  production_total_kt:    { 2020: 4300, 2021: 4700, 2022: 4200, 2023: 3400, 2024: 2440 },
+  trinecke_kt:            { 2020: 2580, 2021: 2400, 2022: 2500, 2023: 2415, 2024: 2425 },
+  liberty_kt:             { 2020: 1710, 2021: 2280, 2022: 1800, 2023:  990, 2024:   15 },
+  apparent_consumption_kt:{ 2020: 7000, 2021: 8100, 2022: 7100, 2023: 5800, 2024: 5600 },
+  trade_3rd: {
+    imports_kt: { 2022: 261, 2023: 238 },
+    exports_kt: { 2022: 154, 2023: 169 }
+  },
+  insights: [
+    { text: 'Виробництво −48% за 4 роки (2020→2024) через зупинку Liberty Ostrava', cls: 'neg' },
+    { text: 'Třinecké — єдиний активний первинний виробник у 2024 (~99% CZ output)', cls: 'warn' },
+    { text: 'Новий власник NH Ostrava (з липня 2025) — відновлення виробництва в процесі', cls: 'pos' },
+    { text: 'CZ — хаб переробки: імпортує напівфабрикат, переробляє, реекспортує', cls: '' }
+  ]
+};
+
+function renderMarketPanel() {
+  renderProdTable();
+  renderConsBars();
+  renderTradeGrid();
+  renderInsights();
+}
+
+function renderProdTable() {
+  const tbody = document.getElementById('prod-tbody');
+  const rows = [
+    { label: 'Всього ЧР',  key: 'production_total_kt', cls: 'row-total'    },
+    { label: 'Třinecké',   key: 'trinecke_kt',          cls: 'row-trinecke' },
+    { label: 'Nová Huť',   key: 'liberty_kt',           cls: 'row-liberty'  }
+  ];
+  rows.forEach(row => {
+    const tr = document.createElement('tr');
+    tr.className = row.cls;
+    let html = `<td>${row.label}</td>`;
+    MARKET.years.forEach(y => {
+      const v = MARKET[row.key][y];
+      if (v === 0 || v <= 20) {
+        html += `<td class="cell-zero">—</td>`;
+      } else {
+        html += `<td>${(v/1000).toFixed(2)}</td>`;
+      }
+    });
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  });
+}
+
+function renderConsBars() {
+  const container = document.getElementById('cons-bars');
+  const max = Math.max(...MARKET.years.map(y => MARKET.apparent_consumption_kt[y]));
+  MARKET.years.forEach(y => {
+    const v = MARKET.apparent_consumption_kt[y];
+    const conf = (y === 2021 || y === 2024) ? '' : ' opacity:0.65';
+    const pct = (v / max * 100).toFixed(1);
+    const color = y === 2024 ? 'var(--negative)' : y === 2021 ? 'var(--accent-mid)' : 'var(--accent-light)';
+    const div = document.createElement('div');
+    div.className = 'bar-row';
+    div.innerHTML = `
+      <span class="bar-year">${y}</span>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${pct}%;background:${color};${conf}"></div>
+      </div>
+      <span class="bar-value">${(v/1000).toFixed(1)} Mt</span>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function renderTradeGrid() {
+  const grid = document.getElementById('trade-grid');
+  [2022, 2023].forEach(y => {
+    const imp  = MARKET.trade_3rd.imports_kt[y] || null;
+    const exp  = MARKET.trade_3rd.exports_kt[y] || null;
+    const ac   = MARKET.apparent_consumption_kt[y] || null;
+    const prod = MARKET.production_total_kt[y]    || null;
+    // EU implied net import = AC − Production − 3rd_country_imports
+    const euNet = (ac && prod && imp) ? Math.round(ac - prod - imp) : null;
+
+    const yrEl   = document.createElement('div'); yrEl.className   = 'tg-year'; yrEl.textContent = y;
+    const impEl  = document.createElement('div'); impEl.className  = 'tg-imp';  impEl.textContent = imp   ? imp   + ' kt' : '—';
+    const expEl  = document.createElement('div'); expEl.className  = 'tg-exp';  expEl.textContent = exp   ? exp   + ' kt' : '—';
+    const netEl  = document.createElement('div'); netEl.className  = 'tg-imp net-imp';
+    netEl.textContent = euNet !== null ? euNet + ' kt' : '—';
+    netEl.title = euNet !== null ? `${ac} − ${prod} − ${imp} = ${euNet} kt (умовний нетто-імпорт з EU)` : '';
+
+    grid.appendChild(yrEl);
+    grid.appendChild(impEl);
+    grid.appendChild(expEl);
+    grid.appendChild(netEl);
+  });
+  // note
+  const note = document.createElement('div');
+  note.style.cssText = 'grid-column:1/-1;font-size:9px;color:var(--text-muted);margin-top:4px;line-height:1.4';
+  note.textContent = '* EU нетто = ВС − Виробн. − імпорт з 3-х країн. Дані 2022–2023 (наявність 3-ї статистики).';
+  grid.appendChild(note);
+}
+
+function renderInsights() {
+  const list = document.getElementById('insight-list');
+  MARKET.insights.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'insight-item' + (item.cls ? ' ' + item.cls : '');
+    div.textContent = item.text;
+    list.appendChild(div);
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   INIT
+   ════════════════════════════════════════════════════════════ */
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderMap();
+  renderMarketPanel();
+
+  // Hide tooltip on map click outside markers
+  document.getElementById('map-container').addEventListener('click', (e) => {
+    if (!e.target.closest('.plant-marker')) {
+      hideSidebarPreview();
+    }
+  });
+});
+</script>
+</body>
+</html>

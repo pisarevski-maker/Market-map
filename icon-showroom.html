@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icon Showroom — Steel Dashboard</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Inter, sans-serif; background: #f0ebe8; color: #1a0a0d; padding-bottom: 80px; }
+
+  .header { background: #7A1F2B; color: white; padding: 18px 36px; display: flex; align-items: baseline; gap: 16px; }
+  .header h1 { font-size: 18px; font-weight: 700; }
+  .header p  { font-size: 13px; opacity: 0.75; }
+
+  .section { padding: 20px 36px 8px; }
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #7A1F2B; padding-bottom: 10px; border-bottom: 1px solid #d4bec1; margin-bottom: 12px;
+  }
+
+  .icon-row {
+    display: flex; align-items: center;
+    background: white; border-radius: 10px;
+    padding: 12px 16px 12px 20px; margin-bottom: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.07); gap: 12px;
+  }
+  .row-label { width: 170px; flex-shrink: 0; }
+  .row-label .lname { font-size: 13px; font-weight: 600; }
+  .row-label .leng  { font-size: 11px; color: #8a6a70; margin-top: 2px; }
+
+  .variants { display: flex; gap: 8px; }
+
+  .variant { position: relative; }
+  .variant input[type=radio] { display: none; }
+  .variant label {
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    cursor: pointer; border: 2px solid #e8dfe0; border-radius: 10px;
+    padding: 10px 6px 7px; width: 84px;
+    transition: border-color .15s, background .15s, transform .1s;
+    background: #faf7f7;
+  }
+  .variant label:hover { border-color: #b87a85; background: #fef5f6; transform: translateY(-1px); }
+  .variant input:checked + label {
+    border-color: #7A1F2B; background: #fdeef0;
+    box-shadow: 0 0 0 3px rgba(122,31,43,.12);
+  }
+
+  .icon-slot {
+    width: 54px; height: 54px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .icon-slot svg { width: 54px; height: 54px; color: #3a1520; }
+  .variant label:hover .icon-slot svg { color: #7A1F2B; }
+  .variant input:checked + label .icon-slot svg { color: #7A1F2B; }
+  .icon-slot .spinner {
+    width: 24px; height: 24px; border: 2px solid #e8dfe0;
+    border-top-color: #7A1F2B; border-radius: 50%;
+    animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .icon-slot .miss {
+    font-size: 28px; color: #c08088; line-height: 1;
+  }
+
+  .vtitle { font-size: 9.5px; color: #8a6a70; text-align: center; line-height: 1.3; }
+  .variant input:checked + label .vtitle { color: #7A1F2B; font-weight: 700; }
+
+  .ck-badge {
+    position: absolute; top: 3px; right: 3px;
+    width: 16px; height: 16px; background: #7A1F2B; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: white; opacity: 0; pointer-events: none; transition: opacity .15s;
+  }
+  .variant input:checked ~ .ck-badge { opacity: 1; }
+
+  /* footer */
+  .footer-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: white; border-top: 2px solid #e8dfe0;
+    padding: 14px 36px; display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 -4px 16px rgba(0,0,0,.10); z-index: 50;
+  }
+  .counter { font-size: 14px; color: #6a4a50; }
+  .counter span { font-weight: 700; color: #7A1F2B; font-size: 18px; }
+  .btn-done {
+    background: #7A1F2B; color: white; border: none; border-radius: 8px;
+    padding: 11px 32px; font-size: 15px; font-weight: 700; cursor: pointer;
+  }
+  .btn-done:hover { background: #9B1C31; }
+  .btn-done:disabled { background: #c4a0a6; cursor: not-allowed; }
+
+  /* modal */
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(20,8,10,.55); z-index: 100; align-items: center; justify-content: center; }
+  .overlay.show { display: flex; }
+  .modal { background: white; border-radius: 14px; padding: 28px 32px; max-width: 680px; width: 94%; max-height: 88vh; overflow-y: auto; }
+  .modal-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .modal-hdr h2 { font-size: 16px; color: #7A1F2B; font-weight: 700; }
+  .btn-close { background: none; border: 1px solid #d4bec1; border-radius: 6px; padding: 5px 14px; cursor: pointer; font-size: 13px; color: #6a4a50; }
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .result-item { display: flex; align-items: center; gap: 12px; border: 1px solid #e8dfe0; border-radius: 8px; padding: 10px 12px; background: #faf7f7; }
+  .result-item svg { width: 40px; height: 40px; color: #7A1F2B; flex-shrink: 0; }
+  .rlabel { font-size: 12px; font-weight: 600; }
+  .ricon  { font-size: 10px; color: #8a6a70; margin-top: 2px; font-family: monospace; }
+  .json-block { background: #1a0a0d; color: #f0e8ea; border-radius: 8px; padding: 16px; font-family: Consolas, monospace; font-size: 11px; line-height: 1.6; overflow-x: auto; margin-bottom: 14px; white-space: pre; }
+  .btn-copy { background: #f0e8ea; color: #7A1F2B; border: 1px solid #d4bec1; border-radius: 6px; padding: 7px 18px; cursor: pointer; font-size: 13px; font-weight: 600; }
+  .attr-note { font-size: 11px; color: #8a6a70; margin-top: 16px; padding-top: 12px; border-top: 1px solid #e8dfe0; }
+  .attr-note a { color: #7A1F2B; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏭 Icon Showroom</h1>
+  <p>Оберіть іконку для кожного типу → «✓ Готово»</p>
+</div>
+
+<div class="section">
+  <div class="section-label">⚙️ Виробничі агрегати</div>
+  <div id="aggregates-rows"></div>
+</div>
+<div class="section">
+  <div class="section-label">📦 Продукти</div>
+  <div id="products-rows"></div>
+</div>
+
+<div class="footer-bar">
+  <div class="counter">Обрано: <span id="count">0</span> / 10</div>
+  <button class="btn-done" id="btn-done" onclick="showSummary()" disabled>✓ Готово</button>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h2>Ваш вибір</h2>
+      <button class="btn-close" onclick="closeOverlay()">✕ Закрити</button>
+    </div>
+    <div class="result-grid" id="result-grid"></div>
+    <div class="json-block" id="json-output"></div>
+    <button class="btn-copy" onclick="copyJSON()">📋 Скопіювати JSON</button>
+    <div class="attr-note">
+      Іконки: <a href="https://game-icons.net" target="_blank">game-icons.net</a> —
+      CC BY 3.0 · Delapouite, Lorc, Sbed. Вкажіть авторів у футері дашборду.
+    </div>
+  </div>
+</div>
+
+<script>
+// SVG cache: author/name → svg element clone source
+const svgCache = {};
+const selections = {};
+
+const RAW = 'https://raw.githubusercontent.com/game-icons/icons/master';
+
+const SECTIONS = [
+  { id: 'aggregates-rows', types: [
+    { key:'blast_furnace', label:'Доменна піч', eng:'Blast Furnace', variants:[
+      {a:'delapouite', n:'furnace',        t:'Furnace'},
+      {a:'delapouite', n:'factory',        t:'Factory'},
+      {a:'delapouite', n:'foundry-bucket', t:'Foundry Bucket'},
+      {a:'delapouite', n:'coal-wagon',     t:'Coal Wagon'},
+      {a:'delapouite', n:'blacksmith',     t:'Blacksmith'},
+    ]},
+    { key:'eaf', label:'ЕДП (Електродугова піч)', eng:'Electric Arc Furnace', variants:[
+      {a:'lorc', n:'lightning-arc',   t:'Lightning Arc'},
+      {a:'lorc', n:'arcing-bolt',     t:'Arcing Bolt'},
+      {a:'lorc', n:'heavy-lightning', t:'Heavy Lightning'},
+      {a:'lorc', n:'power-lightning', t:'Power Lightning'},
+      {a:'sbed', n:'electric',        t:'Electric'},
+    ]},
+    { key:'rolling_mill', label:'Прокатний стан', eng:'Rolling Mill', variants:[
+      {a:'lorc',       n:'gears',       t:'Gears'},
+      {a:'lorc',       n:'gear-hammer', t:'Gear Hammer'},
+      {a:'delapouite', n:'factory-arm', t:'Factory Arm'},
+      {a:'delapouite', n:'blacksmith',  t:'Blacksmith'},
+      {a:'delapouite', n:'factory',     t:'Factory'},
+    ]},
+    { key:'wire_drawing', label:'Волочіння дроту', eng:'Wire Drawing', variants:[
+      {a:'lorc', n:'anvil',        t:'Anvil'},
+      {a:'lorc', n:'anvil-impact', t:'Anvil Impact'},
+      {a:'lorc', n:'metal-bar',    t:'Metal Bar'},
+      {a:'lorc', n:'metal-hand',   t:'Metal Hand'},
+      {a:'lorc', n:'gear-hammer',  t:'Gear Hammer'},
+    ]},
+    { key:'tube_mill', label:'Трубний стан', eng:'Tube Mill', variants:[
+      {a:'delapouite', n:'pipes',       t:'Pipes'},
+      {a:'delapouite', n:'tee-pipe',    t:'Tee Pipe'},
+      {a:'delapouite', n:'valve',       t:'Valve'},
+      {a:'lorc',       n:'gears',       t:'Gears'},
+      {a:'delapouite', n:'factory-arm', t:'Factory Arm'},
+    ]},
+  ]},
+  { id: 'products-rows', types: [
+    { key:'wire_rod', label:'Катанка / Wire Rod', eng:'Wire Rod / Coil', variants:[
+      {a:'lorc', n:'metal-bar',    t:'Metal Bar'},
+      {a:'lorc', n:'metal-hand',   t:'Metal Hand'},
+      {a:'lorc', n:'anvil',        t:'Anvil'},
+      {a:'lorc', n:'gear-hammer',  t:'Gear Hammer'},
+      {a:'lorc', n:'anvil-impact', t:'Anvil Impact'},
+    ]},
+    { key:'rebar', label:'Арматура (Rebar)', eng:'Reinforcing Bar', variants:[
+      {a:'lorc',       n:'metal-bar',    t:'Metal Bar'},
+      {a:'delapouite', n:'metal-plate',  t:'Metal Plate'},
+      {a:'lorc',       n:'anvil-impact', t:'Anvil Impact'},
+      {a:'delapouite', n:'blacksmith',   t:'Blacksmith'},
+      {a:'lorc',       n:'metal-hand',   t:'Metal Hand'},
+    ]},
+    { key:'rails', label:'Рейки (Rails)', eng:'Steel Rails', variants:[
+      {a:'delapouite', n:'railway',     t:'Railway'},
+      {a:'delapouite', n:'rail-road',   t:'Rail Road'},
+      {a:'delapouite', n:'old-wagon',   t:'Old Wagon'},
+      {a:'delapouite', n:'coal-wagon',  t:'Coal Wagon'},
+      {a:'delapouite', n:'metal-plate', t:'Metal Plate'},
+    ]},
+    { key:'seamless_tube', label:'Безшовна труба', eng:'Seamless Tube', variants:[
+      {a:'delapouite', n:'tee-pipe',    t:'Tee Pipe'},
+      {a:'delapouite', n:'pipes',       t:'Pipes'},
+      {a:'delapouite', n:'valve',       t:'Valve'},
+      {a:'delapouite', n:'factory-arm', t:'Factory Arm'},
+      {a:'lorc',       n:'gears',       t:'Gears'},
+    ]},
+    { key:'heavy_plate', label:'Товстий лист', eng:'Heavy Plate', variants:[
+      {a:'delapouite', n:'metal-plate',       t:'Metal Plate'},
+      {a:'lorc',       n:'metal-bar',         t:'Metal Bar'},
+      {a:'lorc',       n:'anvil',             t:'Anvil'},
+      {a:'delapouite', n:'full-metal-bucket', t:'Full Metal Bucket'},
+      {a:'delapouite', n:'foundry-bucket',    t:'Foundry Bucket'},
+    ]},
+  ]},
+];
+
+// ── fetch & cache SVG ─────────────────────────────────────────────────────────
+async function fetchSVG(author, name) {
+  const key = `${author}/${name}`;
+  if (svgCache[key]) return svgCache[key];
+
+  const url = `${RAW}/${author}/${name}.svg`;
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(r.status);
+    const text = await r.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'image/svg+xml');
+    const svg = doc.querySelector('svg');
+    if (!svg) throw new Error('no svg');
+    svg.removeAttribute('width');
+    svg.removeAttribute('height');
+    svg.style.cssText = 'width:54px;height:54px;display:block;';
+
+    // game-icons structure:
+    //   <path d="M0 0h512v512H0z"/>        ← black BG path (no fill attr = defaults black)
+    //   <path fill="#fff" d="..."/>         ← white icon path
+    // Fix: remove BG paths, convert white paths to currentColor
+
+    svg.querySelectorAll('rect, path, polygon, circle, ellipse').forEach(el => {
+      const fill = (el.getAttribute('fill') || '').toLowerCase().trim();
+      const d    = (el.getAttribute('d')    || '').trim();
+
+      // Background path: no fill (defaults black) AND starts at 0,0 covering full area
+      const isBgPath = fill === '' && /^M\s*0\s+0/.test(d);
+      // Background rect: any rect
+      const isBgRect = el.tagName.toLowerCase() === 'rect';
+      // Explicit black fill
+      const isBlack  = fill === '#000' || fill === '#000000' || fill === 'black';
+
+      if (isBgPath || isBgRect || isBlack) {
+        el.remove();
+      } else {
+        // White icon paths → use CSS color
+        el.setAttribute('fill', 'currentColor');
+      }
+    });
+    svgCache[key] = svg;
+    return svg;
+  } catch(e) {
+    svgCache[key] = null;
+    return null;
+  }
+}
+
+// ── build DOM ─────────────────────────────────────────────────────────────────
+function buildRow(type) {
+  const row = document.createElement('div');
+  row.className = 'icon-row';
+
+  const lbl = document.createElement('div');
+  lbl.className = 'row-label';
+  lbl.innerHTML = `<div class="lname">${type.label}</div><div class="leng">${type.eng}</div>`;
+  row.appendChild(lbl);
+
+  const varWrap = document.createElement('div');
+  varWrap.className = 'variants';
+
+  type.variants.forEach((v, idx) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'variant';
+    const rid = `${type.key}_${idx}`;
+
+    const radio = document.createElement('input');
+    radio.type = 'radio'; radio.name = type.key;
+    radio.id = rid; radio.value = idx;
+    radio.addEventListener('change', () => {
+      selections[type.key] = { label: type.label, eng: type.eng, author: v.a, name: v.n, title: v.t };
+      updateCount();
+    });
+
+    const label = document.createElement('label');
+    label.htmlFor = rid;
+
+    // icon slot with spinner
+    const slot = document.createElement('div');
+    slot.className = 'icon-slot';
+    const spinner = document.createElement('div');
+    spinner.className = 'spinner';
+    slot.appendChild(spinner);
+
+    const titleEl = document.createElement('div');
+    titleEl.className = 'vtitle';
+    titleEl.textContent = v.t;
+
+    label.appendChild(slot);
+    label.appendChild(titleEl);
+
+    const badge = document.createElement('div');
+    badge.className = 'ck-badge';
+    badge.textContent = '✓';
+
+    wrap.appendChild(radio);
+    wrap.appendChild(label);
+    wrap.appendChild(badge);
+    varWrap.appendChild(wrap);
+
+    // async load SVG into slot
+    fetchSVG(v.a, v.n).then(svg => {
+      slot.innerHTML = '';
+      if (svg) {
+        slot.appendChild(svg.cloneNode(true));
+      } else {
+        const m = document.createElement('div');
+        m.className = 'miss'; m.title = v.n;
+        m.textContent = '⬡';
+        slot.appendChild(m);
+      }
+    });
+  });
+
+  row.appendChild(varWrap);
+  return row;
+}
+
+function renderAll() {
+  SECTIONS.forEach(sec => {
+    const container = document.getElementById(sec.id);
+    sec.types.forEach(type => container.appendChild(buildRow(type)));
+  });
+}
+
+function updateCount() {
+  const n = Object.keys(selections).length;
+  document.getElementById('count').textContent = n;
+  document.getElementById('btn-done').disabled = n < 10;
+}
+
+// ── summary ───────────────────────────────────────────────────────────────────
+async function showSummary() {
+  const grid = document.getElementById('result-grid');
+  grid.innerHTML = '';
+  const jsonData = {};
+
+  for (const [key, sel] of Object.entries(selections)) {
+    const svg = await fetchSVG(sel.author, sel.name);
+    jsonData[key] = { label: sel.label, author: sel.author, icon: sel.name };
+
+    const item = document.createElement('div');
+    item.className = 'result-item';
+    if (svg) item.appendChild(svg.cloneNode(true));
+    item.innerHTML += `<div><div class="rlabel">${sel.label}</div><div class="ricon">${sel.author}/${sel.name}</div></div>`;
+    grid.appendChild(item);
+  }
+
+  document.getElementById('json-output').textContent = JSON.stringify(jsonData, null, 2);
+  document.getElementById('overlay').classList.add('show');
+}
+
+function closeOverlay() { document.getElementById('overlay').classList.remove('show'); }
+
+function copyJSON() {
+  navigator.clipboard.writeText(document.getElementById('json-output').textContent).then(() => {
+    const btn = document.querySelector('.btn-copy');
+    btn.textContent = '✓ Скопійовано!';
+    setTimeout(() => btn.textContent = '📋 Скопіювати JSON', 2000);
+  });
+}
+
+document.getElementById('overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeOverlay(); });
+
+renderAll();
+</script>
+</body>
+</html>

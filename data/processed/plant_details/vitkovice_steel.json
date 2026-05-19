@@ -1,0 +1,135 @@
+{
+  "plant_id": "vitkovice_steel",
+  "name": "Vítkovice Steel",
+  "name_full": "Vítkovice Steel, a.s.",
+  "city": "Ostrava",
+  "district": "Vítkovice",
+  "region": "Moravskoslezský kraj",
+  "country": "CZ",
+  "coordinates": { "lat": 49.8198, "lon": 18.2607, "note": "estimated — Ostrava-Vítkovice district" },
+  "founded": 1828,
+  "owner": "Jindal Steel International",
+  "owner_parent": "Jindal Group",
+  "owner_origin": "IN",
+  "ownership_since": "2025-01-01",
+  "status": "active",
+  "strategic_importance": "high",
+
+  "summary": {
+    "short": "Єдиний виробник важких стальних плит у Чехії та один з двох виробників штетовниць у ЄС. Re-roller без власної сталі з 2015. У 2025 куплена індійською Jindal Group — перша велика індійська інвестиція в чеську металургію. Заплановано €150 млн інвестицій.",
+    "en": "Only heavy steel plate producer in Czech Republic and one of two sheet piling producers in EU. Re-roller since 2015. Acquired by India's Jindal Group in 2025 — first major Indian investment in Czech steel. €150M investment planned."
+  },
+
+  "production_route": {
+    "type": "Re-roller (no own steelmaking)",
+    "flow": ["Slab input (external suppliers)", "Hot Rolling — Heavy Plate Mill"],
+    "aggregates": [
+      {
+        "name": "Сталеплавильні агрегати",
+        "name_en": "Steelmaking (former)",
+        "category": "steelmaking",
+        "status": "decommissioned",
+        "notes": "Власне виробництво сирої сталі зупинено з 2015"
+      },
+      {
+        "name": "Стан гарячої прокатки важких плит",
+        "name_en": "Heavy Plate Hot Rolling Mill",
+        "category": "rolling",
+        "status": "active",
+        "capacity_kt": 800,
+        "notes": "Єдиний в ЧР. Також виробляє штетовниці."
+      }
+    ]
+  },
+
+  "slab_supply": {
+    "current": "EU та Азія (різні постачальники)",
+    "planned": "Vulcan Green Steel (Оман, частина Jindal Group) — MoU на 1 млн т/рік low-emission slabs",
+    "note": "До 2022 — часткові поставки з Росії (припинено)"
+  },
+
+  "products": [
+    {
+      "name": "Heavy steel plate (важкі стальні плити)",
+      "category": "flat",
+      "status": "main",
+      "capacity_kt": 800,
+      "production_kt": "To be verified",
+      "notes": "ЄДИНИЙ виробник у ЧР. Застосування: суднобудування, мости, нафтогаз, будівництво"
+    },
+    {
+      "name": "Sheet piling (штетовниці)",
+      "category": "special",
+      "status": "active",
+      "capacity_kt": "To be verified",
+      "notes": "Один з ДВОХ виробників у ЄС"
+    }
+  ],
+
+  "performance_2025": {
+    "crude_steel_kt": 0,
+    "rolled_plate_kt": "To be verified",
+    "capacity_kt": 800,
+    "utilization_pct": "To be verified",
+    "trend_vs_2024": "positive",
+    "trend_note": "Новий власник, заявлені інвестиції €150M — очікується зростання",
+    "source_type": "estimated"
+  },
+
+  "market_context_2025": {
+    "key_position": "Монополіст у сегменті важких плит у ЧР",
+    "notes": "Індійський капітал відкриває доступ до ланцюга постачань Jindal Group"
+  },
+
+  "news_2025": [
+    {
+      "date": "2024-10",
+      "type": "ownership",
+      "trend": "positive",
+      "title": "Jindal Group оголошує придбання Vítkovice Steel",
+      "summary": "Перше велике вкладення Jindal Group в Європі"
+    },
+    {
+      "date": "2024-12-20",
+      "type": "regulatory",
+      "trend": "positive",
+      "title": "Антимонопольне схвалення ÚOHS",
+      "summary": "Чеський антимонопольний орган схвалив придбання"
+    },
+    {
+      "date": "2025-01-01",
+      "type": "ownership",
+      "trend": "positive",
+      "title": "Офіційна зміна власника",
+      "summary": "Jindal Steel International стає новим власником"
+    },
+    {
+      "date": "2025",
+      "type": "investment",
+      "trend": "positive",
+      "title": "Інвестиційний план €150 млн",
+      "summary": "Розширення потужностей, продукти з доданою вартістю"
+    },
+    {
+      "date": "2025",
+      "type": "partnership",
+      "trend": "positive",
+      "title": "MoU з Vulcan Green Steel (Оман)",
+      "summary": "Угода на поставку 1 млн т/рік low-emission slabs від сестринської компанії Jindal"
+    }
+  ],
+
+  "sources": [
+    { "title": "GMK — Jindal стає власником", "url": "https://gmk.center/en/news/jindal-steel-international-officially-becomes-the-new-owner-of-vitkovice-steel/" },
+    { "title": "EUROMETAL — Jindal придбання", "url": "https://eurometal.net/jindal-steel-acquires-czech-republics-vitkovice-steel/" },
+    { "title": "SteelRadar", "url": "https://www.steelradar.com/en/jindal-steel-acquires-vitkovice-steel/" },
+    { "title": "Офіційний сайт", "url": "https://www.vitkovicesteel.com/en/" }
+  ],
+
+  "meta": {
+    "data_quality": "good",
+    "last_updated": "2026-05-18",
+    "verified_fields": ["ownership", "plate_capacity", "product_uniqueness", "investment_plans"],
+    "needs_verification": ["exact_coordinates", "production_volumes_2025", "utilization_rate"]
+  }
+}
