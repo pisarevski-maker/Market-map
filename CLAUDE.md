@@ -23,8 +23,25 @@
 ## Правила агентів
 - Director дає "зелене світло" перед кожним переходом між фазами
 - Кожен агент отримує чіткий бриф перед стартом
-- Ollama-агенти не приймають архітектурних рішень
 - Claude приймає всі рішення що потребують судження
+
+## Git commits — ОБОВ'ЯЗКОВО (Claude робить без запитань)
+Claude як куратор проекту зобов'язаний робити git commit після кожної завершеної фази:
+
+| Тригер | Команда коміту |
+|---|---|
+| Структура папок + конфіги створені | `git commit -m "init: project structure + agent configs"` |
+| Research Agent завершив збір даних | `git commit -m "research: {country} steel plants data collected"` |
+| JSON файли заводів згенеровані | `git commit -m "data: plant JSON files generated and validated"` |
+| index.html готовий | `git commit -m "dashboard: map dashboard index.html"` |
+| plant-detail.html готовий | `git commit -m "dashboard: plant detail page"` |
+| Ринкові дані інтегровані | `git commit -m "feat: market panel + market_context.json"` |
+| QA пройдений | `git commit -m "qa: all checks passed, ready for export"` |
+| Будь-яке важливе виправлення | `git commit -m "fix: {опис}"` |
+
+**Правило:** Не чекати кінця проекту. Коміт = страховка. Кожна фаза = окрема стабільна точка в git history.
+
+**Якщо git показує "nothing to commit" на Windows/OneDrive:** виконати `del .git\index && git add -A` перед комітом (G-16).
 
 ## Тренди кольорів
 - Зростання / інвестиції → #2E7D32 (зелений)
