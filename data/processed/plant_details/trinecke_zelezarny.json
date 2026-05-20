@@ -21,7 +21,7 @@
 
   "production_route": {
     "type": "Integrated steelworks (BF+BOF) + EAF",
-    "flow": ["Coke plant", "Sinter plant", "Blast Furnace", "BOF Converter", "EAF", "Continuous Casting", "Rolling Mills"],
+    "flow": ["Coke plant", "Sinter plant", "Blast Furnace", ["BOF Converter", "EAF"], "Continuous Casting", ["Wire Rod Mill", "Bar & Profile Mill", "Rail Mill", "Pipe Plant"]],
     "aggregates": [
       {
         "name": "Коксохімічний завод",
