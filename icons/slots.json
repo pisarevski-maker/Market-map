@@ -1,0 +1,85 @@
+{
+  "_meta": {
+    "description": "Icon slot dictionary for Czech Steel Dashboard",
+    "style": "outline",
+    "source": "game-icons.net or any SVG source",
+    "processing": "G-12: remove background path, set fill=currentColor",
+    "in_use_dir": "dashboard/assets/icons/in-use/",
+    "updated": "2026-05-20"
+  },
+
+  "plant_types": {
+    "_placement": ["map_markers", "plant_card"],
+    "_description": "Plant type icons — shown on map markers and plant header card",
+    "plant_integrated":  { "label": "Integrated steelworks (BF+BOF)",  "example_search": "blast-furnace factory smelting" },
+    "plant_eaf":         { "label": "EAF-only steelworks",             "example_search": "electric bolt lightning furnace" },
+    "plant_rolling":     { "label": "Rolling mill only",               "example_search": "rolling wheel gears industrial" },
+    "plant_tube":        { "label": "Tube / pipe manufacturer",        "example_search": "pipes tube circle" },
+    "plant_wire":        { "label": "Wire drawing / wire producer",    "example_search": "wire-coil wire spool" },
+    "plant_specialty":   { "label": "Specialty steel",                 "example_search": "star diamond specialty" }
+  },
+
+  "equipment": {
+    "_placement": ["flow_nodes"],
+    "_description": "Individual aggregate icons — shown in production flow SVG nodes",
+
+    "eq_coke_plant":     { "label": "Coke plant",              "example_search": "coke coal flame fire" },
+    "eq_sinter_plant":   { "label": "Sinter plant",            "example_search": "sinter stack layers" },
+    "eq_pellet_plant":   { "label": "Pellet plant",            "example_search": "pellet hexagon ball" },
+    "eq_ore_yard":       { "label": "Iron ore / raw materials","example_search": "ore mountain mine" },
+
+    "eq_blast_furnace":  { "label": "Blast furnace",           "example_search": "blast-furnace furnace tower" },
+    "eq_bof":            { "label": "BOF converter",           "example_search": "converter cauldron ripple" },
+    "eq_eaf":            { "label": "Electric arc furnace",    "example_search": "electric arc bolt eaf" },
+    "eq_ladle_furnace":  { "label": "Ladle furnace (secondary metallurgy)", "example_search": "ladle pot cauldron" },
+    "eq_vod":            { "label": "Vacuum degassing (VOD/RH)","example_search": "vacuum bubble clean" },
+
+    "eq_ccm":            { "label": "Continuous casting machine","example_search": "casting pour stream" },
+    "eq_ingot":          { "label": "Ingot casting",           "example_search": "ingot block box mold" },
+
+    "eq_hot_rolling":    { "label": "Hot rolling mill",        "example_search": "rolling hot press flatten" },
+    "eq_wire_rod_mill":  { "label": "Wire rod mill",           "example_search": "wire-coil wire rod coil" },
+    "eq_bar_mill":       { "label": "Bar & profile mill",      "example_search": "bar profile beam rod" },
+    "eq_rail_mill":      { "label": "Rail mill",               "example_search": "rail train-rails railway" },
+    "eq_plate_mill":     { "label": "Plate mill",              "example_search": "plate flat sheet" },
+    "eq_cold_rolling":   { "label": "Cold rolling mill",       "example_search": "cold rolling snowflake" },
+    "eq_pipe_seamless":  { "label": "Seamless pipe plant",     "example_search": "pipe seamless circle tube" },
+    "eq_pipe_welded":    { "label": "Welded pipe plant",       "example_search": "pipe welded weld" },
+    "eq_coating":        { "label": "Galvanizing / coating line","example_search": "coating layers galvanize" },
+    "eq_drawing":        { "label": "Wire drawing / finishing", "example_search": "drawing wire spool" }
+  },
+
+  "products": {
+    "_placement": ["product_cards"],
+    "_description": "Product icons — categories and specific products in plant detail cards",
+
+    "cat_long":          { "label": "Long products (category)",  "example_search": "bar profile rod long" },
+    "cat_flat":          { "label": "Flat products (category)",  "example_search": "flat sheet plate coil" },
+    "cat_tubes":         { "label": "Tubes & pipes (category)",  "example_search": "pipe tube circle hollow" },
+    "cat_semis":         { "label": "Semi-finished (category)",  "example_search": "billet bloom slab cube block" },
+
+    "prod_wire_rod":     { "label": "Wire rod / катанка",        "example_search": "wire-coil coil wire" },
+    "prod_rebar":        { "label": "Rebar / арматура",          "example_search": "rebar bar rod reinforcement" },
+    "prod_rails":        { "label": "Rails / рейки",             "example_search": "train-rails rail railway" },
+    "prod_beams":        { "label": "Beams & profiles / балки",  "example_search": "beam profile h-beam" },
+    "prod_bars":         { "label": "Bars & rounds / прутки",    "example_search": "bar round rod" },
+    "prod_hrc":          { "label": "HRC — hot rolled coil",     "example_search": "coil roll hot" },
+    "prod_crc":          { "label": "CRC — cold rolled coil",    "example_search": "coil roll cold" },
+    "prod_galv":         { "label": "Galvanized sheet",          "example_search": "galvanized sheet zinc coating" },
+    "prod_pipe_seamless":{ "label": "Seamless pipes / безшовні труби", "example_search": "pipe seamless" },
+    "prod_pipe_welded":  { "label": "Welded pipes / зварні труби",     "example_search": "pipe welded" },
+    "prod_billet":       { "label": "Billets / заготовки",       "example_search": "billet square block" },
+    "prod_bloom":        { "label": "Blooms / блюми",            "example_search": "bloom rectangle" },
+    "prod_slab":         { "label": "Slabs / сляби",             "example_search": "slab flat plate" }
+  },
+
+  "status": {
+    "_placement": ["kpi_blocks", "plant_card"],
+    "_description": "Status and trend icons — shown in KPI blocks and plant status badges",
+    "status_active":     { "label": "Active / working",          "example_search": "check active play running" },
+    "status_idle":       { "label": "Idle / mothballed",         "example_search": "pause sleep idle" },
+    "status_closed":     { "label": "Bankrupt / closed",         "example_search": "closed x stop bankrupt" },
+    "status_growth":     { "label": "Growing / investment",      "example_search": "trending-up growth invest" },
+    "status_decline":    { "label": "Declining / restructuring", "example_search": "trending-down decline fall" }
+  }
+}
